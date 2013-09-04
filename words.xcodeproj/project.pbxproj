@@ -16,6 +16,13 @@
 		46D0D70417D74C7700CE85E3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D70317D74C7700CE85E3 /* Default.png */; };
 		46D0D70617D74C7700CE85E3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D70517D74C7700CE85E3 /* Default@2x.png */; };
 		46D0D70817D74C7700CE85E3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D70717D74C7700CE85E3 /* Default-568h@2x.png */; };
+		46D0D72517D74F4C00CE85E3 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0D72317D74F4C00CE85E3 /* HomeViewController.m */; };
+		46D0D72617D74F4C00CE85E3 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D72417D74F4C00CE85E3 /* HomeViewController.xib */; };
+		46D0D72817D74F7200CE85E3 /* HomeViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D72717D74F7200CE85E3 /* HomeViewController_iPad.xib */; };
+		46D0D73217D75B7700CE85E3 /* Char.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0D72B17D75B7700CE85E3 /* Char.m */; };
+		46D0D73317D75B7700CE85E3 /* Position.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0D72D17D75B7700CE85E3 /* Position.m */; };
+		46D0D73417D75B7700CE85E3 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0D72F17D75B7700CE85E3 /* Word.m */; };
+		46D0D73517D75B7700CE85E3 /* WordTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0D73117D75B7700CE85E3 /* WordTable.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +39,18 @@
 		46D0D70317D74C7700CE85E3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		46D0D70517D74C7700CE85E3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		46D0D70717D74C7700CE85E3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		46D0D72217D74F4C00CE85E3 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		46D0D72317D74F4C00CE85E3 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		46D0D72417D74F4C00CE85E3 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		46D0D72717D74F7200CE85E3 /* HomeViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController_iPad.xib; sourceTree = "<group>"; };
+		46D0D72A17D75B7700CE85E3 /* Char.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Char.h; sourceTree = "<group>"; };
+		46D0D72B17D75B7700CE85E3 /* Char.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Char.m; sourceTree = "<group>"; };
+		46D0D72C17D75B7700CE85E3 /* Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Position.h; sourceTree = "<group>"; };
+		46D0D72D17D75B7700CE85E3 /* Position.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Position.m; sourceTree = "<group>"; };
+		46D0D72E17D75B7700CE85E3 /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
+		46D0D72F17D75B7700CE85E3 /* Word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Word.m; sourceTree = "<group>"; };
+		46D0D73017D75B7700CE85E3 /* WordTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordTable.h; sourceTree = "<group>"; };
+		46D0D73117D75B7700CE85E3 /* WordTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordTable.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +97,8 @@
 		46D0D6F717D74C7700CE85E3 /* words */ = {
 			isa = PBXGroup;
 			children = (
+				46D0D72917D75B7700CE85E3 /* WordTable */,
+				46D0D72117D74F1500CE85E3 /* screens */,
 				46D0D70017D74C7700CE85E3 /* AppDelegate.h */,
 				46D0D70117D74C7700CE85E3 /* AppDelegate.m */,
 				46D0D6F817D74C7700CE85E3 /* Supporting Files */,
@@ -97,6 +118,32 @@
 				46D0D70717D74C7700CE85E3 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		46D0D72117D74F1500CE85E3 /* screens */ = {
+			isa = PBXGroup;
+			children = (
+				46D0D72217D74F4C00CE85E3 /* HomeViewController.h */,
+				46D0D72317D74F4C00CE85E3 /* HomeViewController.m */,
+				46D0D72417D74F4C00CE85E3 /* HomeViewController.xib */,
+				46D0D72717D74F7200CE85E3 /* HomeViewController_iPad.xib */,
+			);
+			path = screens;
+			sourceTree = "<group>";
+		};
+		46D0D72917D75B7700CE85E3 /* WordTable */ = {
+			isa = PBXGroup;
+			children = (
+				46D0D72A17D75B7700CE85E3 /* Char.h */,
+				46D0D72B17D75B7700CE85E3 /* Char.m */,
+				46D0D72C17D75B7700CE85E3 /* Position.h */,
+				46D0D72D17D75B7700CE85E3 /* Position.m */,
+				46D0D72E17D75B7700CE85E3 /* Word.h */,
+				46D0D72F17D75B7700CE85E3 /* Word.m */,
+				46D0D73017D75B7700CE85E3 /* WordTable.h */,
+				46D0D73117D75B7700CE85E3 /* WordTable.m */,
+			);
+			path = WordTable;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +201,8 @@
 				46D0D70417D74C7700CE85E3 /* Default.png in Resources */,
 				46D0D70617D74C7700CE85E3 /* Default@2x.png in Resources */,
 				46D0D70817D74C7700CE85E3 /* Default-568h@2x.png in Resources */,
+				46D0D72617D74F4C00CE85E3 /* HomeViewController.xib in Resources */,
+				46D0D72817D74F7200CE85E3 /* HomeViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +215,11 @@
 			files = (
 				46D0D6FE17D74C7700CE85E3 /* main.m in Sources */,
 				46D0D70217D74C7700CE85E3 /* AppDelegate.m in Sources */,
+				46D0D72517D74F4C00CE85E3 /* HomeViewController.m in Sources */,
+				46D0D73217D75B7700CE85E3 /* Char.m in Sources */,
+				46D0D73317D75B7700CE85E3 /* Position.m in Sources */,
+				46D0D73417D75B7700CE85E3 /* Word.m in Sources */,
+				46D0D73517D75B7700CE85E3 /* WordTable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
