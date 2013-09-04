@@ -16,12 +16,6 @@
 		46D0D70417D74C7700CE85E3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D70317D74C7700CE85E3 /* Default.png */; };
 		46D0D70617D74C7700CE85E3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D70517D74C7700CE85E3 /* Default@2x.png */; };
 		46D0D70817D74C7700CE85E3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D70717D74C7700CE85E3 /* Default-568h@2x.png */; };
-		46D0D70B17D74C7700CE85E3 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0D70A17D74C7700CE85E3 /* MasterViewController.m */; };
-		46D0D70E17D74C7700CE85E3 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0D70D17D74C7700CE85E3 /* DetailViewController.m */; };
-		46D0D71117D74C7700CE85E3 /* MasterViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D70F17D74C7700CE85E3 /* MasterViewController_iPhone.xib */; };
-		46D0D71417D74C7700CE85E3 /* MasterViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D71217D74C7700CE85E3 /* MasterViewController_iPad.xib */; };
-		46D0D71717D74C7700CE85E3 /* DetailViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D71517D74C7700CE85E3 /* DetailViewController_iPhone.xib */; };
-		46D0D71A17D74C7700CE85E3 /* DetailViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D71817D74C7700CE85E3 /* DetailViewController_iPad.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,14 +32,6 @@
 		46D0D70317D74C7700CE85E3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		46D0D70517D74C7700CE85E3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		46D0D70717D74C7700CE85E3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		46D0D70917D74C7700CE85E3 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		46D0D70A17D74C7700CE85E3 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		46D0D70C17D74C7700CE85E3 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		46D0D70D17D74C7700CE85E3 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		46D0D71017D74C7700CE85E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MasterViewController_iPhone.xib; sourceTree = "<group>"; };
-		46D0D71317D74C7700CE85E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MasterViewController_iPad.xib; sourceTree = "<group>"; };
-		46D0D71617D74C7700CE85E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DetailViewController_iPhone.xib; sourceTree = "<group>"; };
-		46D0D71917D74C7700CE85E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DetailViewController_iPad.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,14 +80,6 @@
 			children = (
 				46D0D70017D74C7700CE85E3 /* AppDelegate.h */,
 				46D0D70117D74C7700CE85E3 /* AppDelegate.m */,
-				46D0D70917D74C7700CE85E3 /* MasterViewController.h */,
-				46D0D70A17D74C7700CE85E3 /* MasterViewController.m */,
-				46D0D70C17D74C7700CE85E3 /* DetailViewController.h */,
-				46D0D70D17D74C7700CE85E3 /* DetailViewController.m */,
-				46D0D70F17D74C7700CE85E3 /* MasterViewController_iPhone.xib */,
-				46D0D71217D74C7700CE85E3 /* MasterViewController_iPad.xib */,
-				46D0D71517D74C7700CE85E3 /* DetailViewController_iPhone.xib */,
-				46D0D71817D74C7700CE85E3 /* DetailViewController_iPad.xib */,
 				46D0D6F817D74C7700CE85E3 /* Supporting Files */,
 			);
 			path = words;
@@ -176,10 +154,6 @@
 				46D0D70417D74C7700CE85E3 /* Default.png in Resources */,
 				46D0D70617D74C7700CE85E3 /* Default@2x.png in Resources */,
 				46D0D70817D74C7700CE85E3 /* Default-568h@2x.png in Resources */,
-				46D0D71117D74C7700CE85E3 /* MasterViewController_iPhone.xib in Resources */,
-				46D0D71417D74C7700CE85E3 /* MasterViewController_iPad.xib in Resources */,
-				46D0D71717D74C7700CE85E3 /* DetailViewController_iPhone.xib in Resources */,
-				46D0D71A17D74C7700CE85E3 /* DetailViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,8 +166,6 @@
 			files = (
 				46D0D6FE17D74C7700CE85E3 /* main.m in Sources */,
 				46D0D70217D74C7700CE85E3 /* AppDelegate.m in Sources */,
-				46D0D70B17D74C7700CE85E3 /* MasterViewController.m in Sources */,
-				46D0D70E17D74C7700CE85E3 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,38 +178,6 @@
 				46D0D6FB17D74C7700CE85E3 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		46D0D70F17D74C7700CE85E3 /* MasterViewController_iPhone.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				46D0D71017D74C7700CE85E3 /* en */,
-			);
-			name = MasterViewController_iPhone.xib;
-			sourceTree = "<group>";
-		};
-		46D0D71217D74C7700CE85E3 /* MasterViewController_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				46D0D71317D74C7700CE85E3 /* en */,
-			);
-			name = MasterViewController_iPad.xib;
-			sourceTree = "<group>";
-		};
-		46D0D71517D74C7700CE85E3 /* DetailViewController_iPhone.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				46D0D71617D74C7700CE85E3 /* en */,
-			);
-			name = DetailViewController_iPhone.xib;
-			sourceTree = "<group>";
-		};
-		46D0D71817D74C7700CE85E3 /* DetailViewController_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				46D0D71917D74C7700CE85E3 /* en */,
-			);
-			name = DetailViewController_iPad.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
