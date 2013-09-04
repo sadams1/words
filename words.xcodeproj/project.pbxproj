@@ -23,6 +23,8 @@
 		46D0D73317D75B7700CE85E3 /* Position.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0D72D17D75B7700CE85E3 /* Position.m */; };
 		46D0D73417D75B7700CE85E3 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0D72F17D75B7700CE85E3 /* Word.m */; };
 		46D0D73517D75B7700CE85E3 /* WordTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0D73117D75B7700CE85E3 /* WordTable.m */; };
+		46D0D73917D75BF500CE85E3 /* circle1.png in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D73717D75BF500CE85E3 /* circle1.png */; };
+		46D0D73A17D75BF500CE85E3 /* circle2.png in Resources */ = {isa = PBXBuildFile; fileRef = 46D0D73817D75BF500CE85E3 /* circle2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 		46D0D72F17D75B7700CE85E3 /* Word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Word.m; sourceTree = "<group>"; };
 		46D0D73017D75B7700CE85E3 /* WordTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordTable.h; sourceTree = "<group>"; };
 		46D0D73117D75B7700CE85E3 /* WordTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordTable.m; sourceTree = "<group>"; };
+		46D0D73717D75BF500CE85E3 /* circle1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle1.png; sourceTree = "<group>"; };
+		46D0D73817D75BF500CE85E3 /* circle2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,7 @@
 		46D0D6E217D74C7700CE85E3 = {
 			isa = PBXGroup;
 			children = (
+				46D0D73617D75BF500CE85E3 /* images */,
 				46D0D6F717D74C7700CE85E3 /* words */,
 				46D0D6F017D74C7700CE85E3 /* Frameworks */,
 				46D0D6EE17D74C7700CE85E3 /* Products */,
@@ -146,6 +151,15 @@
 			path = WordTable;
 			sourceTree = "<group>";
 		};
+		46D0D73617D75BF500CE85E3 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				46D0D73717D75BF500CE85E3 /* circle1.png */,
+				46D0D73817D75BF500CE85E3 /* circle2.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -203,6 +217,8 @@
 				46D0D70817D74C7700CE85E3 /* Default-568h@2x.png in Resources */,
 				46D0D72617D74F4C00CE85E3 /* HomeViewController.xib in Resources */,
 				46D0D72817D74F7200CE85E3 /* HomeViewController_iPad.xib in Resources */,
+				46D0D73917D75BF500CE85E3 /* circle1.png in Resources */,
+				46D0D73A17D75BF500CE85E3 /* circle2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
