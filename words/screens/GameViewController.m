@@ -17,6 +17,20 @@
 
 @implementation GameViewController
 
+- (id)init
+{
+    NSString *xib = @"GameViewController";
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        xib = @"GameViewController_iPad";
+    }
+    self = [self initWithNibName:xib bundle:nil];
+    if (self) {
+        
+    }
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

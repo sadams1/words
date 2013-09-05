@@ -22,12 +22,8 @@
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
-    NSString *xib = @"HomeViewController";
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        xib = @"HomeViewController_iPad";
-    }
-    HomeViewController *homeViewController = [[[HomeViewController alloc] initWithNibName:xib bundle:nil] autorelease];
+    
+    HomeViewController *homeViewController = [[[HomeViewController alloc] init] autorelease];
     self.navigationController = [[[UINavigationController alloc] initWithRootViewController:homeViewController] autorelease];
     
     self.window.rootViewController = self.navigationController;

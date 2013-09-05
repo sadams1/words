@@ -11,6 +11,20 @@
 
 @implementation HomeViewController
 
+- (id)init
+{
+    NSString *xib = @"HomeViewController";
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        xib = @"HomeViewController_iPad";
+    }
+    self = [self initWithNibName:xib bundle:nil];
+    if (self) {
+        
+    }
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -24,12 +38,7 @@
 {
     [super viewDidLoad];
     
-    NSString *xib = @"GameViewController";
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        xib = @"GameViewController_iPad";
-    }
-    GameViewController *gameViewCont = [[GameViewController alloc] initWithNibName:xib bundle:nil];
+    GameViewController *gameViewCont = [[GameViewController alloc] init];
     [self.navigationController pushViewController:gameViewCont animated:YES];
 }
 
