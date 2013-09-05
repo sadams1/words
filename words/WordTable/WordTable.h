@@ -29,8 +29,9 @@
 - (void)viewDidLoadWithFrame:(CGRect)frame;
 
 - (bool)canRemoveUnnecessaryChars:(int)charsCount;
-- (void)removeUnnecessaryChars:(int)charsCount;
+- (void)doRemoveUnnecessaryChars:(int)charsCount;
 - (void)doWordStartCharHint;
+- (void)doResolveGame;
 
 - (void)touchesBegan:(CGPoint)point;
 - (void)touchesCancelled:(CGPoint)point;

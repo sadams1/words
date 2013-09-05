@@ -139,7 +139,7 @@
         return false;
 }
 
-- (void)removeUnnecessaryChars:(int)charsCount
+- (void)doRemoveUnnecessaryChars:(int)charsCount
 {
     NSMutableSet *tmpChars = [[[NSMutableSet alloc] init] autorelease];
     for (int i = 0; i < TABLE_SIZE; i++)
@@ -198,6 +198,19 @@
     [animation setToValue:[NSValue valueWithCGPoint:
                            CGPointMake([label center].x + offset, [label center].y)]];
     [[label layer] addAnimation:animation forKey:@"position"];
+}
+
+- (void)doResolveGame
+{
+    for (Word *word in _words)
+    {
+        if (!word.isFound)
+        {
+            word.isFound = TRUE;
+            [word setImgViewBackground:ImageBackgroundTypeFull];
+        }
+    }
+    [self refreshView];
 }
 
 - (void)touchesBegan:(CGPoint)point
