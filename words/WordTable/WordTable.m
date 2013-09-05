@@ -15,7 +15,6 @@
 {
     NSMutableArray *_words;
     NSMutableArray *_wordStrings;
-    CGRect _frame;
     
     NSMutableArray *_charTable;
     Word *_tmpWord;
@@ -43,13 +42,12 @@
 
 @implementation WordTable
 
-- (id)initWithFrame:(CGRect)frame words:(NSArray *)words delegate:(id<WordTableDelegate>)delegate
+- (id)initWithWords:(NSArray *)words delegate:(id<WordTableDelegate>)delegate
 {
     self = [super init];
     if (self)
     {
         _wordStrings = [[NSMutableArray alloc] initWithArray:words];
-        _frame = frame;
         _delegate = delegate;
         
         NSSortDescriptor *sortDescriptor;
@@ -85,14 +83,14 @@
     [super dealloc];
 }
 
-- (void)viewDidLoad
+- (void)viewDidLoadWithFrame:(CGRect)frame
 {
-    self.view = [[[UIView alloc] initWithFrame:_frame] autorelease];
+    self.view = [[[UIView alloc] initWithFrame:frame] autorelease];
     
     //  init words
     [self resetTable];
     
-    int cellSize = _frame.size.width / TABLE_SIZE;
+    int cellSize = frame.size.width / TABLE_SIZE;
     
     //  set chars on screen
     for (int i = 0; i < TABLE_SIZE; i++)
@@ -239,7 +237,7 @@
                 [word setImgViewBackground:ImageBackgroundTypeFull];
                 if (_delegate != nil)
                 {
-                    [_delegate foundWord:[self.tmpWord getString]];
+                    [_delegate wordTable:self foundWord:[self.tmpWord getString]];
                 }
     
                 bool completed = true;
@@ -254,7 +252,7 @@
                 {
                     if (_delegate != nil)
                     {
-                        [_delegate completedGame];
+                        [_delegate wordTableCompletedGame:self];
                     }
                 }
             }
@@ -298,7 +296,7 @@
         
         if (currentDirection != DIRECTION_NULL && _delegate != nil)
         {
-            [_delegate changedTmpWord:[self.tmpWord getString]];
+            [_delegate wordTable:self changedTmpWord:[self.tmpWord getString]];
         }
         
     }
@@ -572,7 +570,7 @@
 
 - (Position *)getPositionFromPoint:(CGPoint)point
 {
-    int cellSize = _frame.size.width / TABLE_SIZE;
+    int cellSize = self.view.frame.size.width / TABLE_SIZE;
     int x = point.x / cellSize;
     int y = point.y / cellSize;
     return [[[Position alloc] initWithX:x Y:y] autorelease];

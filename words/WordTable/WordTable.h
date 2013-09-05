@@ -25,8 +25,8 @@
 
 @property (nonatomic, retain) UIView *view;
 
-- (id)initWithFrame:(CGRect)frame words:(NSArray*)words delegate:(id<WordTableDelegate>)delegate;
-- (void)viewDidLoad;
+- (id)initWithWords:(NSArray*)words delegate:(id<WordTableDelegate>)delegate;
+- (void)viewDidLoadWithFrame:(CGRect)frame;
 
 - (bool)canRemoveUnnecessaryChars:(int)charsCount;
 - (void)removeUnnecessaryChars:(int)charsCount;
