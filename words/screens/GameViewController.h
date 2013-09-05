@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WordTable.h"
 
-@interface GameViewController : UIViewController
+@interface GameViewController : UIViewController <WordTableDelegate>
+
+- (IBAction)doButtonHint:(id)sender;
+- (IBAction)doButtonRemoveChars:(id)sender;
+- (IBAction)doButtonResolveGame:(id)sender;
+
 
 @end

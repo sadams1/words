@@ -7,10 +7,7 @@
 //
 
 #import "HomeViewController.h"
-
-@interface HomeViewController ()
-
-@end
+#import "GameViewController.h"
 
 @implementation HomeViewController
 
@@ -26,7 +23,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    NSString *xib = @"GameViewController";
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        xib = @"GameViewController_iPad";
+    }
+    GameViewController *gameViewCont = [[GameViewController alloc] initWithNibName:xib bundle:nil];
+    [self.navigationController pushViewController:gameViewCont animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
