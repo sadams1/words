@@ -7,6 +7,7 @@
 //
 
 #import "GameViewController.h"
+#import "StoreCoinsViewController.h"
 
 @interface GameViewController ()
 {
@@ -103,6 +104,15 @@
     }
 }
 
+- (void)doButtonStore:(id)sender
+{
+    [self presentViewController:[StoreCoinsViewController sharedInstance]
+                       animated:NO
+                     completion:^{
+                                              
+                                }];
+}
+
 - (void)doButtonHint:(id)sender
 {
     [_wordTable doWordStartCharHint];
@@ -116,6 +126,11 @@
 - (void)doButtonResolveGame:(id)sender
 {
     [_wordTable doResolveGame];
+}
+
+- (void)doButtonPause:(id)sender
+{
+    
 }
 
 #pragma mark WordTableDelegate

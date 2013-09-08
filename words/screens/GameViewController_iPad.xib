@@ -77,7 +77,7 @@
 						<string key="NSFrame">{{279, 54}, {136, 44}}</string>
 						<reference key="NSSuperview" ref="144840045"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="260565824"/>
+						<reference key="NSNextKeyView" ref="183195994"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -94,12 +94,13 @@
 						<reference key="IBUIFontDescription" ref="733354117"/>
 						<reference key="IBUIFont" ref="531677495"/>
 					</object>
-					<object class="IBUIButton" id="260565824">
+					<object class="IBUIButton" id="183195994">
 						<reference key="NSNextResponder" ref="144840045"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{456, 54}, {177, 44}}</string>
 						<reference key="NSSuperview" ref="144840045"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="383996168"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -116,11 +117,57 @@
 						<reference key="IBUIFontDescription" ref="733354117"/>
 						<reference key="IBUIFont" ref="531677495"/>
 					</object>
+					<object class="IBUIButton" id="589795559">
+						<reference key="NSNextResponder" ref="144840045"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{32, 54}, {63, 44}}</string>
+						<reference key="NSSuperview" ref="144840045"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="835572957"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<int key="IBUIContentHorizontalAlignment">0</int>
+						<int key="IBUIContentVerticalAlignment">0</int>
+						<int key="IBUIButtonType">1</int>
+						<string key="IBUINormalTitle">Store</string>
+						<reference key="IBUIHighlightedTitleColor" ref="972523944"/>
+						<object class="NSColor" key="IBUINormalTitleColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+						</object>
+						<reference key="IBUINormalTitleShadowColor" ref="402027651"/>
+						<reference key="IBUIFontDescription" ref="733354117"/>
+						<reference key="IBUIFont" ref="531677495"/>
+					</object>
+					<object class="IBUIButton" id="383996168">
+						<reference key="NSNextResponder" ref="144840045"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{672, 54}, {69, 44}}</string>
+						<reference key="NSSuperview" ref="144840045"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<int key="IBUIContentHorizontalAlignment">0</int>
+						<int key="IBUIContentVerticalAlignment">0</int>
+						<int key="IBUIButtonType">1</int>
+						<string key="IBUINormalTitle">Pause</string>
+						<reference key="IBUIHighlightedTitleColor" ref="972523944"/>
+						<object class="NSColor" key="IBUINormalTitleColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+						</object>
+						<reference key="IBUINormalTitleShadowColor" ref="402027651"/>
+						<reference key="IBUIFontDescription" ref="733354117"/>
+						<reference key="IBUIFont" ref="531677495"/>
+					</object>
 				</array>
 				<string key="NSFrameSize">{768, 1004}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="835572957"/>
+				<reference key="NSNextKeyView" ref="589795559"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -143,6 +190,46 @@
 					<int key="connectionID">3</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">buttonHint</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="835572957"/>
+					</object>
+					<int key="connectionID">35</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">buttonPause</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="383996168"/>
+					</object>
+					<int key="connectionID">36</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">buttonRemoveChars</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="426817952"/>
+					</object>
+					<int key="connectionID">37</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">buttonResolveGame</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="183195994"/>
+					</object>
+					<int key="connectionID">38</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">buttonStore</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="589795559"/>
+					</object>
+					<int key="connectionID">39</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">doButtonHint:</string>
 						<reference key="source" ref="835572957"/>
@@ -163,11 +250,29 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">doButtonResolveGame:</string>
-						<reference key="source" ref="260565824"/>
+						<reference key="source" ref="183195994"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">32</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">doButtonStore:</string>
+						<reference key="source" ref="589795559"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">41</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">doButtonPause:</string>
+						<reference key="source" ref="383996168"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">40</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -195,7 +300,9 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="835572957"/>
 							<reference ref="426817952"/>
-							<reference ref="260565824"/>
+							<reference ref="183195994"/>
+							<reference ref="589795559"/>
+							<reference ref="383996168"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -213,7 +320,17 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">31</int>
-						<reference key="object" ref="260565824"/>
+						<reference key="object" ref="183195994"/>
+						<reference key="parent" ref="144840045"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">33</int>
+						<reference key="object" ref="589795559"/>
+						<reference key="parent" ref="144840045"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">34</int>
+						<reference key="object" ref="383996168"/>
 						<reference key="parent" ref="144840045"/>
 					</object>
 				</array>
@@ -227,12 +344,14 @@
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="33.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="34.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">32</int>
+			<int key="maxID">41</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -241,12 +360,18 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="doButtonHint:">id</string>
+						<string key="doButtonPause:">id</string>
 						<string key="doButtonRemoveChars:">id</string>
 						<string key="doButtonResolveGame:">id</string>
+						<string key="doButtonStore:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="doButtonHint:">
 							<string key="name">doButtonHint:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doButtonPause:">
+							<string key="name">doButtonPause:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="doButtonRemoveChars:">
@@ -256,6 +381,39 @@
 						<object class="IBActionInfo" key="doButtonResolveGame:">
 							<string key="name">doButtonResolveGame:</string>
 							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doButtonStore:">
+							<string key="name">doButtonStore:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="buttonHint">UIButton</string>
+						<string key="buttonPause">UIButton</string>
+						<string key="buttonRemoveChars">UIButton</string>
+						<string key="buttonResolveGame">UIButton</string>
+						<string key="buttonStore">UIButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="buttonHint">
+							<string key="name">buttonHint</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buttonPause">
+							<string key="name">buttonPause</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buttonRemoveChars">
+							<string key="name">buttonRemoveChars</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buttonResolveGame">
+							<string key="name">buttonResolveGame</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="buttonStore">
+							<string key="name">buttonStore</string>
+							<string key="candidateClassName">UIButton</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
