@@ -22,4 +22,6 @@
 - (IBAction)doButtonVideoAds:(id)sender;
 - (IBAction)doButtonClose:(id)sender;
 
++ (StoreCoinsViewController*)sharedInstance;
+
 @end

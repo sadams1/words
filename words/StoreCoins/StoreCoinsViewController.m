@@ -14,6 +14,16 @@
 
 @implementation StoreCoinsViewController
 
++ (StoreCoinsViewController *)sharedInstance
+{
+    static StoreCoinsViewController *instance;
+    if (instance == nil)
+    {
+        instance = [[StoreCoinsViewController alloc] init];
+    }
+    return instance;
+}
+
 - (id)init
 {
     NSString *xib = @"StoreCoinsViewController";
@@ -77,7 +87,10 @@
 
 - (void)doButtonClose:(id)sender
 {
-    
+    [self dismissViewControllerAnimated:NO
+                             completion:^{
+                                 
+                                        }];
 }
 
 @end
