@@ -1,0 +1,76 @@
+{
+    "categories": [
+                   {
+                   "identifier": 0,
+                   "games": [
+                             {
+                             "identifier": 0,
+                             "words": [
+                                       "00word8",
+                                       "00word7",
+                                       "00word6",
+                                       "00word5",
+                                       "00word4",
+                                       "00word3",
+                                       "00word2",
+                                       "00word1",
+                                       "00word0"
+                                       ],
+                             "name": "game0 categ0"
+                             },
+                             {
+                             "identifier": 1,
+                             "words": [
+                                       "01word8",
+                                       "01word7",
+                                       "01word6",
+                                       "01word5",
+                                       "01word4",
+                                       "01word3",
+                                       "01word2",
+                                       "01word1",
+                                       "01word0"
+                                       ],
+                             "name": "game1 categ0"
+                             }
+                             ],
+                   "name": "category0"
+                   },
+                   {
+                   "identifier": 1,
+                   "games": [
+                             {
+                             "identifier": 2,
+                             "words": [
+                                       "12word8",
+                                       "12word7",
+                                       "12word6",
+                                       "12word5",
+                                       "12word4",
+                                       "12word3",
+                                       "12word2",
+                                       "12word1",
+                                       "12word0"
+                                       ],
+                             "name": "game2 categ1"
+                             },
+                             {
+                             "identifier": 3,
+                             "words": [
+                                       "13word8",
+                                       "13word7",
+                                       "13word6",
+                                       "13word5",
+                                       "13word4",
+                                       "13word3",
+                                       "13word2",
+                                       "13word1",
+                                       "13word0"
+                                       ],
+                             "name": "game3 categ1"
+                             }
+                             ],
+                   "name": "category1"
+                   }
+                   ]
+}
