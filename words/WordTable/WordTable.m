@@ -272,6 +272,10 @@
         }
     }
     [self.tmpWord reset];
+    if (_delegate != nil)
+    {
+        [_delegate wordTable:self changedTmpWord:[self.tmpWord getString]];
+    }
     [self refreshView];
 }
 
