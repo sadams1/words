@@ -5,19 +5,27 @@
                "quests": [
                           {
                           "identifier": 0,
-                          "description": "asd",
-                          "type": "1",
-                          "cost": "500",
+                          "description": "complete 2 different sessions in under 03:00 minutes each",
+                          "type": 1,
+                          "cost": 500,
                           "value": 3,
                           "valuetime": 180
                           },
                           {
                           "identifier": 1,
-                          "description": "asd sadk",
-                          "type": "1",
-                          "cost": "500",
-                          "value": 1,
-                          "valuetime": 240
+                          "description": "complete 2 consecutive sessions in under 03:00 minutes each",
+                          "type": 1,
+                          "cost": 800,
+                          "value": 3,
+                          "valuetime": 180
+                          },
+                          {
+                          "identifier": 1,
+                          "description": "complete 2 games",
+                          "type": 1,
+                          "cost": 800,
+                          "value": 3,
+                          "valuetime": 0
                           }
                           ],
                "name": "Level 1"
@@ -26,12 +34,28 @@
                "identifier": 1,
                "quests": [
                           {
-                          "identifier": 2,
-                          "description": "sdlkas asd",
-                          "type": "1",
-                          "cost": "500",
-                          "value": 3,
-                          "valuetime": 380
+                          "identifier": 0,
+                          "description": "complete 4 different sessions in under 02:45 minutes each",
+                          "type": 1,
+                          "cost": 500,
+                          "value": 4,
+                          "valuetime": 165
+                          },
+                          {
+                          "identifier": 1,
+                          "description": "complete 4 consecutive sessions in under 02:45 minutes each",
+                          "type": 1,
+                          "cost": 800,
+                          "value": 4,
+                          "valuetime": 165
+                          },
+                          {
+                          "identifier": 1,
+                          "description": "complete 4 games",
+                          "type": 1,
+                          "cost": 800,
+                          "value": 4,
+                          "valuetime": 0
                           }
                           ],
                "name": "Level 1"
