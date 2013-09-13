@@ -10,17 +10,20 @@
 
 @interface StoreCoinsViewController ()
 
+@property (nonatomic, assign) id<StoreCoinsViewControllerDelegate> delegate;
+
 @end
 
 @implementation StoreCoinsViewController
 
-+ (StoreCoinsViewController *)sharedInstance
++ (StoreCoinsViewController *)sharedInstanceWithDelegate:(id<StoreCoinsViewControllerDelegate>)delegate
 {
     static StoreCoinsViewController *instance;
     if (instance == nil)
     {
         instance = [[StoreCoinsViewController alloc] init];
     }
+    instance.delegate = delegate;
     return instance;
 }
 
@@ -31,18 +34,9 @@
     {
         xib = @"StoreCoinsViewController_iPad";
     }
-    self = [self initWithNibName:xib bundle:nil];
+    self = [super initWithNibName:xib bundle:nil];
     if (self) {
         
-    }
-    return self;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -89,7 +83,13 @@
 {
     [self dismissViewControllerAnimated:NO
                              completion:^{
-                                 
+                                 if (self.delegate)
+                                 {
+                                     if ([self.delegate respondsToSelector:@selector(storeCoinsViewControllerOnClose)])
+                                     {
+                                         [self.delegate storeCoinsViewControllerOnClose];
+                                     }
+                                 }
                                         }];
 }
 

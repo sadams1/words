@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol StoreCoinsViewControllerDelegate <NSObject>
+
+- (void)storeCoinsViewControllerOnClose;
+
+@end
+
 @interface StoreCoinsViewController : UIViewController
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonCoins1;
@@ -22,6 +28,6 @@
 - (IBAction)doButtonVideoAds:(id)sender;
 - (IBAction)doButtonClose:(id)sender;
 
-+ (StoreCoinsViewController*)sharedInstance;
++ (StoreCoinsViewController*)sharedInstanceWithDelegate:(id<StoreCoinsViewControllerDelegate>)delegate;
 
 @end
