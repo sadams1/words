@@ -89,6 +89,13 @@
     QuestManager *questManager = [[[QuestManager alloc] init] autorelease];
     self.completedQuests = [questManager getCompletedQuests];
     NSLog(@"%d completed quests", self.completedQuests.count);
+    
+    //  do not delete this !!!
+    //  set as completed the quests from next level which meet conditions
+    QuestManager *questManagerSecond = [[[QuestManager alloc] init] autorelease];
+    NSArray *allreadyCompletedQuests = [questManagerSecond getCompletedQuests];
+    NSLog(@"%d allready completed quests", allreadyCompletedQuests.count);
+    //  //  //  //  //  //  //
 }
 
 - (BOOL)isHighscore
