@@ -8,15 +8,30 @@
 
 #import <UIKit/UIKit.h>
 #import "WordTable.h"
+#import "GameSession.h"
+#import "StoreCoinsViewController.h"
 
-@interface GameViewController : UIViewController <WordTableDelegate>
+@class Game;
+
+@protocol GameViewControllerDelegate <NSObject>
+
+- (void)onResume;
+- (void)onRestart;
+- (void)onBack;
+
+@end
+
+@interface GameViewController : UIViewController <WordTableDelegate, GameSessionDelegate, GameViewControllerDelegate, StoreCoinsViewControllerDelegate>
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonStore;
 @property (nonatomic, retain) IBOutlet UIButton *buttonHint;
 @property (nonatomic, retain) IBOutlet UIButton *buttonRemoveChars;
 @property (nonatomic, retain) IBOutlet UIButton *buttonResolveGame;
 @property (nonatomic, retain) IBOutlet UIButton *buttonPause;
+@property (nonatomic, retain) IBOutlet UILabel *labelTmpWord;
+@property (nonatomic, retain) IBOutlet UILabel *labelTime;
 
+- (id)initWithGame:(Game*)game parentViewController:(UIViewController*)viewController;
 
 - (IBAction)doButtonStore:(id)sender;
 - (IBAction)doButtonHint:(id)sender;
