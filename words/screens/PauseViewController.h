@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GameViewController.h"
 
 @interface PauseViewController : UIViewController
+
+- (id)initWithDelegate:(id<GameViewControllerDelegate>)delegate;
+
+- (IBAction)doButtonBack:(id)sender;
+- (IBAction)doBUttonResume:(id)sender;
+- (IBAction)doButtonRestart:(id)sender;
+- (IBAction)doButtonMoreGames:(id)sender;
+- (IBAction)doButtonPackage:(id)sender;
+- (IBAction)doButtonSettings:(id)sender;
 
 @end
