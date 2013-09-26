@@ -22,12 +22,13 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonCoins4;
 @property (nonatomic, retain) IBOutlet UIButton *buttonFreeCoins;   //  share
 @property (nonatomic, retain) IBOutlet UIButton *buttonVideoAds;
+@property (nonatomic, retain) IBOutlet UILabel *labelNotEnough;
 
 - (IBAction)doButtonBuyCoins:(id)sender;
 - (IBAction)doButtonFreeCoins:(id)sender;
 - (IBAction)doButtonVideoAds:(id)sender;
 - (IBAction)doButtonClose:(id)sender;
 
-+ (StoreCoinsViewController*)sharedInstanceWithDelegate:(id<StoreCoinsViewControllerDelegate>)delegate;
++ (StoreCoinsViewController*)sharedInstanceWithDelegate:(id<StoreCoinsViewControllerDelegate>)delegate showNotEnoughCoins:(BOOL)showNotEnough;
 
 @end
