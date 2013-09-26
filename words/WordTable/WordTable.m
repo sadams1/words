@@ -168,9 +168,16 @@
         NSArray *allObjects = [tmpChars allObjects];
         Char *c = [allObjects objectAtIndex:arc4random() % (allObjects.count)];
         [tmpChars removeObject:c];
-        c.string = @"";
-        c.label.text = @"";
-        c.label.backgroundColor = [UIColor blueColor];
+        
+        c.label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"circle1.png"]];
+        [UIView animateWithDuration:1.0 
+                         animations:^{
+                             c.label.transform = CGAffineTransformMakeScale(0.0, 0.0);
+                         }
+                         completion:^(BOOL finished) {
+                             c.string = @"";
+                             c.label.text = @"";
+                         }];
     }
 }
 
