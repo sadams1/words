@@ -18,6 +18,8 @@
 
 @interface GameSession : NSObject
 
+@property (nonatomic, retain) Game *game;
+
 - (id)initWithGame:(Game*)game delegate:(id<GameSessionDelegate>)delegate;
 
 - (void)pause;

@@ -11,7 +11,7 @@
 #import "QuestManager.h"
 #import "Game.h"
 #import "Session.h"
-
+#import "configuration.h"
 
 @interface GameSession ()
 {
@@ -20,7 +20,6 @@
     NSTimer *_timer;
 }
 
-@property (nonatomic, retain) Game *game;
 @property (nonatomic, retain) NSArray *completedQuests;
 
 - (void)onTimerUpdate;
@@ -112,8 +111,23 @@
 
 - (int)getSessionPoints
 {
-    //  todo
-    return 100;
+    int points = 0;
+    
+    float slope = (-1.0 * GAME_SESSION_MAX_POINTS) / (GAME_SESSION_ZERO_POINTS_AT);
+    
+    points = (slope * _timeInterval) + GAME_SESSION_MAX_POINTS;
+    
+    if (_timeInterval > GAME_SESSION_TIME1)
+    {
+        points = points - GAME_SESSION_TIME1_MINUS_P;
+    }
+    
+    if (points < GAME_SESSION_MIN_POINTS)
+    {
+        points = GAME_SESSION_MIN_POINTS;
+    }
+    
+    return points;
 }
 
 - (NSArray *)getQuestsCompleted
