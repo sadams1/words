@@ -103,6 +103,7 @@
             chr.label.backgroundColor = [UIColor clearColor];
             chr.label.textAlignment = NSTextAlignmentCenter;
             chr.label.text = [chr.string uppercaseString];
+            chr.label.font = [UIFont fontWithName:@"Nexa Bold" size:30];
             
             [self.view addSubview:chr.label];
         }
@@ -169,7 +170,7 @@
         Char *c = [allObjects objectAtIndex:arc4random() % (allObjects.count)];
         [tmpChars removeObject:c];
         
-        c.label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"circle1.png"]];
+        c.label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"select_word_pressed.png"]];
         [UIView animateWithDuration:1.0 
                          animations:^{
                              c.label.transform = CGAffineTransformMakeScale(0.0, 0.0);
@@ -292,7 +293,7 @@
     {
         self.positionEnd = [self getPositionFromPoint:point];
         
-        //  animate first char as for hint
+        //  animate the char at the current point
         Char *chr = [[_charTable objectAtIndex:self.positionEnd.x] objectAtIndex:self.positionEnd.y];
         UILabel *label = chr.label;
         float offset = label.frame.size.width / 12;
