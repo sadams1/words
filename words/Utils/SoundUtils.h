@@ -11,7 +11,13 @@
 typedef enum
 {
     SoundTypeBack = 1,
-    
+    SoundTypeCoinsAdded,
+    SoundTypeStartTmpWord,
+    SoundTypeClickOnButton,
+    SoundTypeGameFinished,
+    SoundTypeHint,
+    SoundTypeRemoveChars,
+    SoundTypeQuestCompleted     //  same as game finished
 } SOUND_TYPE;
 
 @interface SoundUtils : NSObject

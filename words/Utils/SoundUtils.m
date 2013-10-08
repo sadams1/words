@@ -85,7 +85,28 @@
     switch (soundType)
     {
         case SoundTypeBack:
+            path = [[NSBundle mainBundle] pathForResource:@"Sound Type Back_01" ofType:@"mp3"];
+            break;
+        case SoundTypeCoinsAdded:
+            path = [[NSBundle mainBundle] pathForResource:@"Coins Added_01" ofType:@"mp3"];
+            break;
+        case SoundTypeClickOnButton:
+            path = [[NSBundle mainBundle] pathForResource:@"SoundTypeClickOnButton_01" ofType:@"mp3"];
+            break;
+        case SoundTypeGameFinished:
+            path = [[NSBundle mainBundle] pathForResource:@"SoundTypeGameFinished_01" ofType:@"mp3"];
+            break;
+        case SoundTypeStartTmpWord:
             path = [[NSBundle mainBundle] pathForResource:@"back" ofType:@"mp3"];
+            break;
+        case SoundTypeHint:
+            path = [[NSBundle mainBundle] pathForResource:@"SoundTypeHint_01a" ofType:@"mp3"];
+            break;
+        case SoundTypeQuestCompleted:
+            path = [[NSBundle mainBundle] pathForResource:@"SoundTypeGameFinished_04" ofType:@"mp3"];
+            break;
+        case SoundTypeRemoveChars:
+            path = [[NSBundle mainBundle] pathForResource:@"SoundTypeRemoveChars_01" ofType:@"mp3"];
             break;
     }
     
