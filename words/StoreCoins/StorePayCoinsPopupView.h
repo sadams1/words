@@ -10,6 +10,11 @@
 
 @interface StorePayCoinsPopupView : UIView
 
+@property (nonatomic, retain) IBOutlet UIView *viewPopup;
+@property (nonatomic, retain) IBOutlet UIButton *buttonOK;
+@property (nonatomic, retain) IBOutlet UIButton *buttonCancel;
+@property (nonatomic, retain) IBOutlet UILabel *labelButtonOK;
+@property (nonatomic, retain) IBOutlet UILabel *labelButtonCancel;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitle;
 @property (nonatomic, retain) IBOutlet UILabel *labelDescription;
 @property (nonatomic, retain) IBOutlet UILabel *labelCost;

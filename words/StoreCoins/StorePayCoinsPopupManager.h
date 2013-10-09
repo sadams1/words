@@ -15,14 +15,15 @@ typedef void(^StorePayOnCancel)(void);
 
 @interface StorePayCoinsPopupManager : NSObject
 
-@property (nonatomic, readonly) BOOL showPopup;
-
 @property (nonatomic, retain) IBOutlet StorePayCoinsPopupView *viewPopupPayCoins;
 @property (nonatomic, retain) UINib *viewLoaderPayCoins;
 
 + (StorePayCoinsPopupManager*)sharedInstance;
 
-- (void)showPopupName:(NSString*)name
+- (BOOL)canShowPopup:(int)popupType;
+
+- (void)showPopupType:(int)popupType
+                 name:(NSString*)name
           description:(NSString*)description
                  cost:(int)cost
                 image:(UIImage*)image

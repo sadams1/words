@@ -21,9 +21,15 @@
 
 - (void)dealloc
 {
+    [self.viewPopup release];
+    [self.buttonOK release];
+    [self.buttonCancel release];
+    [self.labelButtonOK release];
+    [self.labelButtonCancel release];
     [self.labelTitle release];
     [self.labelDescription release];
     [self.labelCost release];
+    [self.imageView release];
     [super dealloc];
 }
 
