@@ -11,6 +11,9 @@
 #import "LevelPopupView.h"
 #import "Quest.h"
 #import "Level.h"
+#import "ImageUtils.h"
+#import "configuration.h"
+#import "SoundUtils.h"
 
 @interface QuestPopupManager ()
 {
@@ -103,6 +106,7 @@
     if (_questIndex < _quests.count)
     {
         //  show quest popup
+        [[SoundUtils sharedInstance] playMusic:SoundTypeQuestCompleted];
         [self.viewLoaderQuest instantiateWithOwner:self options:nil];
         [self configureView:self.viewPopupQuest withQuest:[_quests objectAtIndex:_questIndex]];
         [_parentView addSubview:self.viewPopupQuest];
@@ -127,6 +131,7 @@
     if (completed)
     {
         //  show level popup
+        [[SoundUtils sharedInstance] playMusic:SoundTypeQuestCompleted];
         [self.viewLoaderLevel instantiateWithOwner:self options:nil];
         [self configureView:self.viewPopupLevel withLevel:quest0.level];
         [_parentView addSubview:self.viewPopupLevel];
@@ -135,12 +140,60 @@
 
 - (void)configureView:(QuestPopupView *)view withQuest:(Quest *)quest
 {
-    view.labelQuest.text = quest.desc;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        view.labelTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:40];
+        view.labelQuest.font = [UIFont fontWithName:@"Segoe UI" size:30];
+        view.labelButtonOK.font = [UIFont fontWithName:@"Lucida Calligraphy" size:24];
+    }
+    else
+    {
+        CGSize viewSize = [[UIScreen mainScreen] bounds].size;
+        view.viewPopup.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"popup_background.png"]];
+        view.viewPopup.center = CGPointMake(viewSize.width/2, viewSize.height/2);
+        
+        view.labelTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:25];
+        view.labelQuest.font = [UIFont fontWithName:@"Segoe UI" size:16];
+        view.labelButtonOK.font = [UIFont fontWithName:@"Lucida Calligraphy" size:16];
+    }
+    
+    view.labelTitle.textColor = THEME_COLOR_BLUE;
+    
+    UIImage *imageBackButton = [ImageUtils imageWithColor:THEME_COLOR_RED
+                                                 rectSize:view.buttonOK.frame.size];
+    [view.buttonOK setImage:imageBackButton forState:UIControlStateNormal];
+    
+    view.labelQuest.textColor = THEME_COLOR_GRAY_TEXT;
+    view.labelQuest.text = [NSString stringWithFormat:@"You completed the Quest: %@", quest.desc];
 }
 
 - (void)configureView:(LevelPopupView *)view withLevel:(Level *)level
 {
-    view.labelLevel.text = level.name;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        view.labelTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:40];
+        view.labelQuest.font = [UIFont fontWithName:@"Segoe UI" size:30];
+        view.labelButtonOK.font = [UIFont fontWithName:@"Lucida Calligraphy" size:24];
+    }
+    else
+    {
+        CGSize viewSize = [[UIScreen mainScreen] bounds].size;
+        view.viewPopup.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"popup_background.png"]];
+        view.viewPopup.center = CGPointMake(viewSize.width/2, viewSize.height/2);
+        
+        view.labelTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:25];
+        view.labelQuest.font = [UIFont fontWithName:@"Segoe UI" size:16];
+        view.labelButtonOK.font = [UIFont fontWithName:@"Lucida Calligraphy" size:16];
+    }
+    
+    view.labelTitle.textColor = THEME_COLOR_BLUE;
+    
+    UIImage *imageBackButton = [ImageUtils imageWithColor:THEME_COLOR_RED
+                                                 rectSize:view.buttonOK.frame.size];
+    [view.buttonOK setImage:imageBackButton forState:UIControlStateNormal];
+    
+    view.labelQuest.textColor = THEME_COLOR_GRAY_TEXT;
+    view.labelQuest.text = [NSString stringWithFormat:@"You completed: %@", level.name];
 }
 
 @end

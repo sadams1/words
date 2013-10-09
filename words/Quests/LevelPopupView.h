@@ -10,6 +10,10 @@
 
 @interface LevelPopupView : UIView
 
-@property (nonatomic, retain) IBOutlet UILabel *labelLevel;
+@property (nonatomic, retain) IBOutlet UIView *viewPopup;
+@property (nonatomic, retain) IBOutlet UILabel *labelTitle;
+@property (nonatomic, retain) IBOutlet UILabel *labelQuest;
+@property (nonatomic, retain) IBOutlet UILabel *labelButtonOK;
+@property (nonatomic, retain) IBOutlet UIButton *buttonOK;
 
 @end

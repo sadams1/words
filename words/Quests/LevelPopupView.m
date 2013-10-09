@@ -21,7 +21,11 @@
 
 - (void)dealloc
 {
-    [self.labelLevel release];
+    [self.viewPopup release];
+    [self.labelTitle release];
+    [self.labelQuest release];
+    [self.labelButtonOK release];
+    [self.buttonOK release];
     [super dealloc];
 }
 
