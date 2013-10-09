@@ -12,4 +12,6 @@
 
 + (UIView*)getStarImageViewForPercentage:(float)percentage;
 
++ (UIImage *)imageWithColor:(UIColor *)color rectSize:(CGSize)size;
+
 @end
