@@ -12,12 +12,14 @@ typedef enum
 {
     SoundTypeBack = 1,
     SoundTypeCoinsAdded,
+    SoundTypeFoundWord,
     SoundTypeStartTmpWord,
     SoundTypeClickOnButton,
     SoundTypeGameFinished,
     SoundTypeHint,
     SoundTypeRemoveChars,
     SoundTypeQuestCompleted     //  same as game finished
+    
 } SOUND_TYPE;
 
 @interface SoundUtils : NSObject
@@ -26,7 +28,8 @@ typedef enum
 
 + (SoundUtils*)sharedInstance;
 
-- (void)playSound:(SOUND_TYPE)soundType;
+- (void)playMusic:(SOUND_TYPE)soundType;
+- (void)playSoundEffect:(SOUND_TYPE)soundType;
 
 - (BOOL)isPlaying;
 
