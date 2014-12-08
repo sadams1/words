@@ -94,7 +94,6 @@
     
     if (views == 1)
     {
-        [self addCoins:COINS_REWARD_FOR_VIEWS];
         [defaults setInteger:COINS_VIDEO_MIN_VIEWS forKey:KEY_VIDEOS];
         [defaults synchronize];
         return YES;

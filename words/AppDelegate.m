@@ -11,6 +11,27 @@
 #import "CoreDataUtils.h"
 #import "CoreDataImportWords.h"
 #import "CoreDataImportQuests.h"
+#import "SoundUtils.h"
+#import "GameKitHelper.h"
+#import "MGIAPHelper.h"
+#import "MGAdsManager.h"
+#import "MGLinkAdsManager.h"
+
+#import <RevMobAds/RevMobAds.h>
+#import <Chartboost/Chartboost.h>
+#import <VungleSDK/VungleSDK.h>
+#import "MGShare.h"
+#import "MKLocalNotificationsScheduler.h"
+#import "configuration.h"
+#import "Flurry.h"
+#import "Appirater.h"
+#import <Tapjoy/Tapjoy.h>
+
+@interface AppDelegate ()
+
+- (void)vungleStart;
+
+@end
 
 @implementation AppDelegate
 
@@ -30,14 +51,46 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //  start revmob
+    [RevMobAds startSessionWithAppID:MG_ADS_REVMOB_APP_ID];
+    [[MGAdsManager sharedInstance] startAdsManager];
+    
+    // NOTE: This is the only step required if you're an advertiser.
+	// NOTE: This must be replaced by your App ID. It is retrieved from the Tapjoy website, in your account.
+	[Tapjoy requestTapjoyConnect:TAPJOY_APP_ID
+					   secretKey:TAPJOY_SECRET_KEY
+						 options:@{ TJC_OPTION_ENABLE_LOGGING : @(YES) }
+     // If you are not using Tapjoy Managed currency, you would set your own user ID here.
+     //TJC_OPTON_USER_ID : @"A_UNIQUE_USER_ID"
+     ];
+    
+    [Chartboost cacheMoreApps:CBLocationDefault];
+    [Flurry startSession:FLURRY_APP_ID];
+    [Appirater appLaunched];
+    
+    //
+    
+    //[[GameKitHelper sharedGameKitHelper] authenticateLocalPlayer];
+    [self customizeMGShare];
+    
+    [SoundUtils sharedInstance];
+    
+    [self vungleStart];     //  start video ads
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     
     [CoreDataUtils sharedInstance].managedObjectContext = self.managedObjectContext;
     
     //  import words1.json
-    CoreDataImportWords *importWords = [[[CoreDataImportWords alloc] initWithFileName:@"words1"] autorelease];
-    [importWords importFile];
+   // CoreDataImportWords *importWords = [[[CoreDataImportWords alloc] initWithFileName:@"words1"] autorelease];
+    //[importWords importFile];
+    //  import words2.json
+    //CoreDataImportWords *importWords2 = [[[CoreDataImportWords alloc] initWithFileName:@"words2"] autorelease];
+    //[importWords2 importFile];
+    //  import words3.json
+    CoreDataImportWords *importWords3 = [[[CoreDataImportWords alloc] initWithFileName:@"words3"] autorelease];
+    [importWords3 importFile];
     //  import quests1.json
     CoreDataImportQuests *importQuests = [[[CoreDataImportQuests alloc] initWithFileName:@"quests1"] autorelease];
     [importQuests importFile];
@@ -66,17 +119,18 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [Appirater appEnteredForeground:YES];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[MGLinkAdsManager sharedInstance] loadAdLink];
+    [self localNotificationsSetup];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
 }
 
 
@@ -148,7 +202,7 @@
          
          */
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+//        abort();
     }
     
     return _persistentStoreCoordinator;
@@ -162,5 +216,53 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+- (void)vungleStart
+{
+    VungleSDK* sdk = [VungleSDK sharedSDK];
+    // start vungle publisher library
+    [sdk startWithAppId:VUNGLE_APP_ID];
+}
+
+- (void)localNotificationsSetup
+{
+    //  remove all notifications & clear badge count
+    [[MKLocalNotificationsScheduler sharedInstance] clearBadgeCount];
+    [[MKLocalNotificationsScheduler sharedInstance] removeAllNotifications];
+    
+    NSString *message1 = @"notification message 1";
+    NSString *message2 = @"notification message 2";
+    NSString *message3 = @"notification message 3";
+    NSString *message4 = @"notification message 4";
+    NSString *message5 = @"notification message 5";
+    NSString *message6 = @"notification message 6";
+    
+    NSMutableArray *arrayAll = [[[NSMutableArray alloc] init] autorelease];
+    [arrayAll addObject:[NSArray arrayWithObjects:message1, message2, message4, message6, nil]];
+    [arrayAll addObject:[NSArray arrayWithObjects:message4, message5, message1, message6, nil]];
+    [arrayAll addObject:[NSArray arrayWithObjects:message2, message5, message3, message6, nil]];
+    [arrayAll addObject:[NSArray arrayWithObjects:message3, message1, message4, message6, nil]];
+    [arrayAll addObject:[NSArray arrayWithObjects:message5, message2, message1, message6, nil]];
+    [arrayAll addObject:[NSArray arrayWithObjects:message4, message2, message5, message6, nil]];
+    
+    NSArray *messages = [arrayAll objectAtIndex:arc4random() % (arrayAll.count)];
+    
+    for (int i = 0; i < messages.count; i++)
+    {
+        [[MKLocalNotificationsScheduler sharedInstance] scheduleNotificationOn:[NSDate dateWithTimeIntervalSinceNow:60*60*24*(i+1)]
+                                                                  repeatWeekly:NO
+                                                                          text:[messages objectAtIndex:i]
+                                                                        action:@"View"
+                                                                         sound:nil
+                                                                   launchImage:nil
+                                                                       andInfo:nil];
+    }
+}
+
+- (void)customizeMGShare
+{
+    [MGShare sharedInstance].stringTitle = @"Share Title";
+    [MGShare sharedInstance].stringURL = @"bit.ly share link";
+    [MGShare sharedInstance].stringPathToLocalImage = @"Icon@2x.png";
+}
 
 @end

@@ -14,9 +14,6 @@
 @interface SoundUtils ()
 {
     AVQueuePlayer *_queuePlayer;
-    SystemSoundID ssClickOnButton;
-    SystemSoundID ssBack;
-    SystemSoundID ssFoundWord;
 }
 
 - (void)queuePlayerReachedEnd:(NSNotification*)notification;
@@ -61,22 +58,7 @@
                                                  selector:@selector(queuePlayerReachedEnd:)
                                                      name:AVPlayerItemDidPlayToEndTimeNotification
                                                    object:_queuePlayer.items];
-        
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"Sound Type Back" ofType:@"mp3"];
-        NSURL *pathURL = [NSURL fileURLWithPath : path];
-        OSStatus error = AudioServicesCreateSystemSoundID ((CFURLRef)pathURL, &ssBack);
-        if (error) NSLog(@"SoundPlayer doInit Error is %ld",error);
-        
-        path = [[NSBundle mainBundle] pathForResource:@"SoundTypeFoundWord" ofType:@"mp3"];
-        pathURL = [NSURL fileURLWithPath : path];
-        error = AudioServicesCreateSystemSoundID ((CFURLRef)pathURL, &ssFoundWord);
-        if (error) NSLog(@"SoundPlayer doInit Error is %ld",error);
-        
-        path = [[NSBundle mainBundle] pathForResource:@"SoundTypeClickOnButton" ofType:@"mp3"];
-        pathURL = [NSURL fileURLWithPath : path];
-        error = AudioServicesCreateSystemSoundID ((CFURLRef)pathURL, &ssClickOnButton);
-        if (error) NSLog(@"SoundPlayer doInit Error is %ld",error);
-        
+
     }
     return self;
 }
@@ -93,6 +75,11 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:sON forKey:SOUNDUTILS_SOUND_ON_KEY];
     [userDefaults synchronize];
+}
+
+- (void)removeAllPlayingSounds
+{
+    [_queuePlayer removeAllItems];
 }
 
 - (void)playMusic:(SOUND_TYPE)soundType
@@ -146,6 +133,7 @@
     
     AVPlayerItem *item = [[[AVPlayerItem alloc] initWithURL:pathURL] autorelease];
     [_queuePlayer insertItem:item afterItem:[_queuePlayer.items lastObject]];
+    [_queuePlayer play];
 }
 
 - (void)playSoundEffect:(SOUND_TYPE)soundType
@@ -155,20 +143,32 @@
         return;
     }
     
+    if ([self isPlaying])
+    {
+        return;
+    }
+    
+    NSString *path;
     switch (soundType)
     {
         case SoundTypeBack:
-            AudioServicesPlaySystemSound (ssBack);
+            path = [[NSBundle mainBundle] pathForResource:@"Sound Type Back" ofType:@"mp3"];
             break;
         case SoundTypeFoundWord:
-            AudioServicesPlaySystemSound (ssFoundWord);
+            path = [[NSBundle mainBundle] pathForResource:@"SoundTypeFoundWord2" ofType:@"mp3"];
             break;
         case SoundTypeClickOnButton:
-            AudioServicesPlaySystemSound (ssClickOnButton);
+            path = [[NSBundle mainBundle] pathForResource:@"SoundTypeClickOnButton" ofType:@"mp3"];
             break;
         default:
             return;
     }
+    
+    NSURL *pathURL = [NSURL fileURLWithPath : path];
+    
+    AVPlayerItem *item = [[[AVPlayerItem alloc] initWithURL:pathURL] autorelease];
+    [_queuePlayer insertItem:item afterItem:[_queuePlayer.items lastObject]];
+    [_queuePlayer play];
 }
 
 - (BOOL)isPlaying

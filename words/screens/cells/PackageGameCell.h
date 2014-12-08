@@ -11,5 +11,7 @@
 @interface PackageGameCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UILabel *labelName;
+@property (nonatomic, retain) IBOutlet UIImageView *imageViewIcon;
+@property (nonatomic, retain) IBOutlet UIView *viewStars;
 
 @end

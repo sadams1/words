@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StoreCoinsViewController.h"
 
 @class Category;
 @class PackageGameCell;
@@ -17,9 +18,15 @@
 
 @property (nonatomic, retain) IBOutlet PackageGameCell *cellGame;
 @property (nonatomic, retain) UINib *cellLoaderGame;
+@property (nonatomic, retain) IBOutlet UILabel *labelTitle;
+
+@property (nonatomic, retain) IBOutlet UIView *viewBannerContainer;
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *constraintBannerHeight;
+
 
 - (id)initWithCategory:(Category*)category;
 
 - (IBAction)doButtonBack:(id)sender;
+- (IBAction)doButtonStore:(id)sender;
 
 @end

@@ -55,11 +55,13 @@
     
     NSString *jsonString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
     
-    NSError *error;
+    NSError *error = nil;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding]
                                                          options:kNilOptions
                                                            error:&error];
-    //  todo check error
+    if (error) {
+        return;
+    }
     NSArray *categories = [json valueForKeyPath:@"categories"];
     for (NSDictionary *categoryDict in categories)
     {
@@ -74,8 +76,8 @@
             
             for (NSString *wordStr in words)
             {
-                WordStr *word = [self importWord:wordStr
-                                            game:game];
+                [self importWord:wordStr
+                            game:game];
             }
         }
     }
@@ -83,7 +85,7 @@
     [[CoreDataUtils sharedInstance].managedObjectContext save:&error2];
     if (error2)
     {
-        NSLog(error2.debugDescription);
+        
     }
     
     [self setFileImported:_fileName];
@@ -93,7 +95,7 @@
 - (BOOL)isFileImported:(NSString *)fileName
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults objectForKey:fileName];
+    return [userDefaults objectForKey:fileName] != nil;
 }
 
 - (void)setFileImported:(NSString *)fileName
@@ -110,6 +112,7 @@
                                                        inManagedObjectContext:[CoreDataUtils sharedInstance].managedObjectContext];
     category.identifier = [dictionary objectForKey:@"identifier"];
     category.name = [dictionary objectForKey:@"name"];
+    category.bundleID = [dictionary objectForKey:@"bundle_id"];
     return category;
 }
 

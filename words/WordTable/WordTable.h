@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "Position.h"
 
-#define TABLE_SIZE  11
+//#define TABLE_SIZE  11
+#define TABLE_SIZE  9
+
 
 @class WordTable;
 
@@ -25,8 +27,10 @@
 
 @property (nonatomic, retain) UIView *view;
 
-- (id)initWithWords:(NSArray*)words delegate:(id<WordTableDelegate>)delegate;
-- (void)viewDidLoadWithFrame:(CGRect)frame;
+- (id)initWithView:(UIView*)view words:(NSArray*)words delegate:(id<WordTableDelegate>)delegate;
+- (void)viewDidLoad;
+- (void)viewDidLayoutSubviews;
+
 
 - (bool)canRemoveUnnecessaryChars:(int)charsCount;
 - (void)doRemoveUnnecessaryChars:(int)charsCount;

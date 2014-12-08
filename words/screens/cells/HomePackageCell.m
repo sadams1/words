@@ -13,10 +13,19 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
+    if (self)
+    {
+        
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [self.labelName release];
+    [self.labelDescription release];
+    [self.imageViewIcon release];
+    [super dealloc];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -24,6 +33,18 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+//    if (highlighted)
+//    {
+//        self.imageViewIcon.image = [UIImage imageNamed:@"packages_sel.png"];
+//    }
+//    else
+//    {
+//        self.imageViewIcon.image = [UIImage imageNamed:@"packages.png"];
+//    }
 }
 
 @end

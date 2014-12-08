@@ -17,10 +17,10 @@
 {
     NSTimeInterval _timeInterval;
     id<GameSessionDelegate> _delegate;
-    NSTimer *_timer;
 }
 
 @property (nonatomic, retain) NSArray *completedQuests;
+@property (nonatomic, retain) NSTimer *timer;
 
 - (void)onTimerUpdate;
 - (void)writeSessionInDB;
@@ -37,7 +37,7 @@
         self.game = game;
         _delegate = delegate;
         _timeInterval = 0;
-        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                   target:self
                                                 selector:@selector(onTimerUpdate)
                                                 userInfo:nil
@@ -48,12 +48,11 @@
 
 - (void)dealloc
 {
-    
-    if ([_timer isValid])
+    if ([self.timer isValid])
     {
-        [_timer invalidate];
+        [self.timer invalidate];
     }
-    _timer = nil;
+    [self.timer release];
     [self.game release];
     [self.completedQuests release];
     [super dealloc];
@@ -61,27 +60,36 @@
 
 - (void)pause
 {
-    [_timer invalidate];
-    _timer = nil;
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 - (void)resume
 {
-    if ([_timer isValid])
+    if ([self.timer isValid])
     {
-        [_timer invalidate];
+        [self.timer invalidate];
     }
-    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                               target:self
                                             selector:@selector(onTimerUpdate)
                                             userInfo:nil
                                              repeats:YES];
 }
 
+- (BOOL)isPlaying
+{
+    if (self.timer != nil && [self.timer isValid])
+    {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)gameCompleted
 {
-    [_timer invalidate];
-    _timer = nil;
+    [self.timer invalidate];
+    self.timer = nil;
     
     [self writeSessionInDB];
     
@@ -109,6 +117,19 @@
     return YES;
 }
 
+- (int)getHighscore
+{
+    int highscore = INT32_MAX;
+    for (Session *session in _game.sessions)
+    {
+        if (session.duration.intValue < highscore)
+        {
+            highscore = session.duration.intValue;
+        }
+    }
+    return highscore;
+}
+
 - (int)getSessionPoints
 {
     int points = 0;
@@ -130,6 +151,11 @@
     return points;
 }
 
+- (int)getSessionTimeInterval
+{
+    return _timeInterval;
+}
+
 - (NSArray *)getQuestsCompleted
 {
     return self.completedQuests;
@@ -140,22 +166,31 @@
     _timeInterval++;
     if (_delegate != nil)
     {
-        NSString *time = @"";
-        
-        int hours = _timeInterval / 3600;
-        if (hours)
-        {
-            time = [NSString stringWithFormat:@"%d:", hours];
-        }
-        
-        int minutes = (_timeInterval - (hours * 3600)) / 60;
-        time = [NSString stringWithFormat:@"%@%@%d:", time, minutes<10?@"0":@"", minutes];
-        
-        int seconds = _timeInterval - (hours * 3600) - (minutes * 60);
-        time = [NSString stringWithFormat:@"%@%@%d", time, seconds<10?@"0":@"", seconds];
-        
-        [_delegate onTimeChanged:time];
+        [_delegate onTimeChanged:[self getTimeString:_timeInterval]];
     }
+}
+
+- (NSString *)getTimeString:(NSTimeInterval)interval
+{
+    if (interval == INT32_MAX)
+    {
+        return @"--:--";
+    }
+    
+    NSString *time = @"";
+    
+    int hours = interval / 3600;
+    if (hours)
+    {
+        time = [NSString stringWithFormat:@"%d:", hours];
+    }
+    
+    int minutes = (interval - (hours * 3600)) / 60;
+    time = [NSString stringWithFormat:@"%@%@%d:", time, minutes<10?@"0":@"", minutes];
+    
+    int seconds = interval - (hours * 3600) - (minutes * 60);
+    time = [NSString stringWithFormat:@"%@%@%d", time, seconds<10?@"0":@"", seconds];
+    return time;
 }
 
 - (void)writeSessionInDB
@@ -171,7 +206,7 @@
     [[CoreDataUtils sharedInstance].managedObjectContext save:&error];
     if (error)
     {
-        NSLog(error.debugDescription);
+        
     }
 }
 

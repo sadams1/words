@@ -12,8 +12,10 @@
 
 @interface MGShare ()
 
-- (void)shareTwitterWithCompletion:(void (^)(void))completion;
-- (void)shareFacebookWithCompletion:(void (^)(void))completion;
+@property (nonatomic, copy) void(^completionShare)(bool completed);
+
+- (void)shareTwitter;
+- (void)shareFacebook;
 - (void)shareEmail;
 
 @end
@@ -104,21 +106,23 @@
     [actionSheet showInView:view];
 }
 
-- (void)facebookShareString:(NSString*)message fromViewController:(UIViewController*)viewController completion:(void (^)(void))completion
+- (void)facebookShareString:(NSString*)message fromViewController:(UIViewController*)viewController completion:(void (^)(bool))completion
 {
     self.stringMessage = message;
     self.parentViewController = viewController;
-    [self shareFacebookWithCompletion:completion];
+    self.completionShare = completion;
+    [self shareFacebook];
 }
 
-- (void)twitterShareString:(NSString*)message fromViewController:(UIViewController*)viewController completion:(void (^)(void))completion
+- (void)twitterShareString:(NSString*)message fromViewController:(UIViewController*)viewController completion:(void (^)(bool))completion
 {
     self.stringMessage = message;
     self.parentViewController = viewController;
-    [self shareTwitterWithCompletion:completion];
+    self.completionShare = completion;
+    [self shareTwitter];
 }
 
-- (void)shareTwitterWithCompletion:(void (^)(void))completion
+- (void)shareTwitter
 {
     NSLog(@"twitter");
     [Flurry logEvent:@"MGSHARE - TWITTER"];
@@ -129,7 +133,28 @@
                                                composeViewControllerForServiceType:SLServiceTypeTwitter];
         [tweetSheet setInitialText:self.stringMessage];
         [tweetSheet addURL:[NSURL URLWithString:self.stringURL]];
-        [self.parentViewController presentViewController:tweetSheet animated:YES completion:completion];
+        
+        SLComposeViewControllerCompletionHandler myBlock = ^(SLComposeViewControllerResult result){
+            switch (result) {
+                case SLComposeViewControllerResultCancelled:
+                    if (self.completionShare)
+                    {
+                        self.completionShare(NO);
+                    }
+                    break;
+                case SLComposeViewControllerResultDone:
+                    if (self.completionShare)
+                    {
+                        self.completionShare(YES);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        };
+        
+        tweetSheet.completionHandler = myBlock;
+        [self.parentViewController presentViewController:tweetSheet animated:YES completion:nil];
     }
     else
     {
@@ -142,9 +167,8 @@
     }
 }
 
-- (void)shareFacebookWithCompletion:(void (^)(void))completion
+- (void)shareFacebook
 {
-    NSLog(@"facebook");
     [Flurry logEvent:@"MGSHARE - FACEBOOK"];
     
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook])
@@ -154,7 +178,28 @@
         [tweetSheet setInitialText:self.stringMessage];
         [tweetSheet addURL:[NSURL URLWithString:self.stringURL]];
         [tweetSheet addImage:[UIImage imageNamed:self.stringPathToLocalImage]];
-        [self.parentViewController presentViewController:tweetSheet animated:YES completion:completion];
+        
+        SLComposeViewControllerCompletionHandler myBlock = ^(SLComposeViewControllerResult result){
+            switch (result) {
+                case SLComposeViewControllerResultCancelled:
+                    if (self.completionShare)
+                    {
+                        self.completionShare(NO);
+                    }
+                    break;
+                case SLComposeViewControllerResultDone:
+                    if (self.completionShare)
+                    {
+                        self.completionShare(YES);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        };
+        
+        tweetSheet.completionHandler = myBlock;
+        [self.parentViewController presentViewController:tweetSheet animated:YES completion:nil];
     }
     else
     {

@@ -53,21 +53,23 @@
     
     NSString *jsonString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
     
-    NSError *error;
+    NSError *error = nil;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding]
                                                          options:kNilOptions
                                                            error:&error];
-    //  todo check error
-    NSArray *levels = [json valueForKeyPath:@"levels"];
-    for (NSDictionary *levelDict in levels)
+    if (error == nil)
     {
-        Level *level = [self importLevel:levelDict];
-        NSArray *quests = [levelDict objectForKey:@"quests"];
-        
-        for (NSDictionary *questDict in quests)
+        NSArray *levels = [json valueForKeyPath:@"levels"];
+        for (NSDictionary *levelDict in levels)
         {
-            Quest *quest = [self importQuest:questDict
-                                       level:level];
+            Level *level = [self importLevel:levelDict];
+            NSArray *quests = [levelDict objectForKey:@"quests"];
+            
+            for (NSDictionary *questDict in quests)
+            {
+                [self importQuest:questDict
+                            level:level];
+            }
         }
     }
     
@@ -75,7 +77,7 @@
     [[CoreDataUtils sharedInstance].managedObjectContext save:&error2];
     if (error2)
     {
-        NSLog(error2.debugDescription);
+        
     }
     
     [self setFileImported:_fileName];
@@ -85,7 +87,7 @@
 - (BOOL)isFileImported:(NSString *)fileName
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults objectForKey:fileName];
+    return [userDefaults objectForKey:fileName] != nil;
 }
 
 - (void)setFileImported:(NSString *)fileName

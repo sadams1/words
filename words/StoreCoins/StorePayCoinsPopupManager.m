@@ -122,9 +122,12 @@ static StorePayCoinsPopupManager *_instance;
         [self.viewPopupPayCoins.buttonOK setImage:imageButton forState:UIControlStateNormal];
         [self.viewPopupPayCoins.buttonCancel setImage:imageButton forState:UIControlStateNormal];
         
+        self.viewPopupPayCoins.labelButtonOK.text = NSLocalizedString(@"OK", nil);
+        self.viewPopupPayCoins.labelButtonCancel.text = NSLocalizedString(@"cancel", nil);
+        
         self.viewPopupPayCoins.labelTitle.text = name;
         self.viewPopupPayCoins.labelDescription.text = description;
-        self.viewPopupPayCoins.labelCost.text = [NSString stringWithFormat:@"Cost: %d coins", cost];
+        self.viewPopupPayCoins.labelCost.text = [NSString stringWithFormat:NSLocalizedString(@"costCoins", nil), cost];
         self.viewPopupPayCoins.imageView.image = image;
         self.onButton = onButton;
         
@@ -136,20 +139,22 @@ static StorePayCoinsPopupManager *_instance;
 {
     [_contextsPopup addObject:[NSNumber numberWithInt:_popupType]]; //don't show this popup next time
     
+    [self.viewPopupPayCoins removeFromSuperview];
+    
     if (self.onButton)
     {
         self.onButton(YES, YES);
     }
-    [self.viewPopupPayCoins removeFromSuperview];
 }
 
 - (void)doButtonPopupCancel:(id)sender
 {
+    [self.viewPopupPayCoins removeFromSuperview];
+    
     if (self.onButton)
     {
         self.onButton(NO, YES);
     }
-    [self.viewPopupPayCoins removeFromSuperview];
 }
 
 @end

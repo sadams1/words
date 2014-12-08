@@ -19,6 +19,13 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [self.labelCompleted release];
+    [self.labelName release];
+    [super dealloc];
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];

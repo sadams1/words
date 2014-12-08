@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MGAdsManager.h"
-#import "Chartboost.h"
+#import <Chartboost/Chartboost.h>
 
 @interface MGChartboost : NSObject <MGAdsProvider, ChartboostDelegate>
 {

@@ -10,6 +10,7 @@
 #import "MKLocalNotificationsScheduler.h"
 
 #define NOTIFICATIONS_ON_KEY     @"NOTIFICATIONS_ON_KEY"
+#define BADGE_COUNT_LIMIT        2
 
 static MKLocalNotificationsScheduler *_instance;
 @implementation MKLocalNotificationsScheduler
@@ -126,7 +127,10 @@ static MKLocalNotificationsScheduler *_instance;
 
 	localNotification.alertLaunchImage = launchImage;
 	
-	self.badgeCount ++;
+    if (self.badgeCount < BADGE_COUNT_LIMIT)
+    {
+        self.badgeCount ++;
+    }
     localNotification.applicationIconBadgeNumber = self.badgeCount;
     localNotification.userInfo = userInfo;
 	

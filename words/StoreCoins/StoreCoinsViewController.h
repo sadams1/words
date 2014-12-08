@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "vunglepub.h"
+#import <VungleSDK/VungleSDK.h>
 
 @protocol StoreCoinsViewControllerDelegate <NSObject>
 
@@ -15,7 +15,7 @@
 
 @end
 
-@interface StoreCoinsViewController : UIViewController <VGVunglePubDelegate>
+@interface StoreCoinsViewController : UIViewController <VungleSDKDelegate>
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonCoins1;
 @property (nonatomic, retain) IBOutlet UIButton *buttonCoins2;

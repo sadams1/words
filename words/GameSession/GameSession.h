@@ -23,11 +23,16 @@
 - (id)initWithGame:(Game*)game delegate:(id<GameSessionDelegate>)delegate;
 
 - (void)pause;
-- (void)resume;         
+- (void)resume;
+- (BOOL)isPlaying;
 - (void)gameCompleted;  //  write session in DB
 - (BOOL)isHighscore;
+- (int)getHighscore;
 
 - (int)getSessionPoints;
+- (int)getSessionTimeInterval;
 - (NSArray*)getQuestsCompleted;
+
+- (NSString*)getTimeString:(NSTimeInterval)interval;
 
 @end

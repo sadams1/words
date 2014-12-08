@@ -140,10 +140,10 @@
     }
     else
     {
-        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Network Connection"
-                                                         message:@"Please connect to internet to have access to Coins purchases!"
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"networkConnection", nil)
+                                                         message:NSLocalizedString(@"networkConnectionMsg", nil)
                                                         delegate:nil
-                                               cancelButtonTitle:@"OK"
+                                               cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                                otherButtonTitles:nil, nil] autorelease];
         [alert show];
     }
@@ -156,7 +156,7 @@
         self.labelNotEnough.font = [UIFont fontWithName:@"Segoe UI" size:36];
         self.labelButtonFreeTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:24];
         self.labelButtonVideoTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:24];
-        self.labelButtonVideoCoins.font = [UIFont fontWithName:@"Nexa Bold" size:15];
+        self.labelButtonVideoCoins.font = [UIFont fontWithName:@"Nexa Bold" size:24];
         
         self.labelCoins1Title.font = [UIFont fontWithName:@"Lucida Calligraphy" size:24];
         self.labelCoins2Title.font = [UIFont fontWithName:@"Lucida Calligraphy" size:24];
@@ -186,7 +186,7 @@
         self.labelNotEnough.font = [UIFont fontWithName:@"Segoe UI" size:16];
         self.labelButtonFreeTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:14];
         self.labelButtonVideoTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:14];
-        self.labelButtonVideoCoins.font = [UIFont fontWithName:@"Nexa Bold" size:12];
+        self.labelButtonVideoCoins.font = [UIFont fontWithName:@"Nexa Bold" size:14];
         
         self.labelCoins1Title.font = [UIFont fontWithName:@"Lucida Calligraphy" size:14];
         self.labelCoins2Title.font = [UIFont fontWithName:@"Lucida Calligraphy" size:14];
@@ -211,7 +211,11 @@
     
     self.labelNoVideoAds.textColor = THEME_COLOR_RED;
     self.labelNotEnough.textColor = THEME_COLOR_RED;
-    self.labelNotEnough.text = @"Not enough coins!";
+    self.labelNotEnough.text = NSLocalizedString(@"coinsMsg", nil);
+    
+    self.labelTitle.text = NSLocalizedString(@"coins", nil);
+    self.labelButtonFreeTitle.text = NSLocalizedString(@"freeCoins", nil);
+    self.labelButtonVideoCoins.text = [NSString stringWithFormat:@"%d", COINS_REWARD_FOR_VIEWS];
     
     UIImage *imageRed = [ImageUtils imageWithColor:THEME_COLOR_RED
                                           rectSize:self.buttonFreeCoins.frame.size];
@@ -220,8 +224,6 @@
                           forState:UIControlStateNormal];
     [self.buttonVideoAds setImage:imageRed
                          forState:UIControlStateNormal];
-
-    self.labelButtonVideoCoins.text = [NSString stringWithFormat:@"%d", COINS_REWARD_FOR_VIEWS];
     
     self.labelCoins1Title.text = STORE_BUNDLE_IN_APP_1_TITLE;
     self.labelCoins2Title.text = STORE_BUNDLE_IN_APP_2_TITLE;
@@ -232,6 +234,11 @@
     self.labelCoins2Subtitle.text = STORE_BUNDLE_IN_APP_2_DESCRIPTION;
     self.labelCoins3Subtitle.text = STORE_BUNDLE_IN_APP_3_DESCRIPTION;
     self.labelCoins4Subtitle.text = STORE_BUNDLE_IN_APP_4_DESCRIPTION;
+    
+    self.labelCoins1Buy.text = NSLocalizedString(@"buy", nil);
+    self.labelCoins2Buy.text = NSLocalizedString(@"buy", nil);
+    self.labelCoins3Buy.text = NSLocalizedString(@"buy", nil);
+    self.labelCoins4Buy.text = NSLocalizedString(@"buy", nil);
     
     UIImage *imageBackButton = [ImageUtils imageWithColor:THEME_COLOR_GRAY_LIGHT
                                                  rectSize:self.buttonCoins1.frame.size];
@@ -288,7 +295,7 @@
     
     self.labelStoreCoins.text = [NSString stringWithFormat:@"%d", [[CoinsManager sharedInstance] getCoins]];
     
-    self.labelButtonVideoTitle.text = [NSString stringWithFormat:@"Watch %d videos", [[CoinsManager sharedInstance] getVideoViews]];
+        self.labelButtonVideoTitle.text = [NSString stringWithFormat:NSLocalizedString(@"watchVideos", nil), [[CoinsManager sharedInstance] getVideoViews]];
     
     if (!self.labelNoVideoAds.hidden)
     {
@@ -339,7 +346,7 @@
 
 - (void)doButtonFreeCoins:(id)sender
 {
-    [Flurry logEvent:@"GAME: doButtonFreeCoins"
+    [Flurry logEvent:@"StoreCoins: doButtonFreeCoins"
       withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@"coins", [NSNumber numberWithInt:[[CoinsManager sharedInstance] getCoins]], nil]];
     
     [Tapjoy showOffersWithViewController:self];
@@ -347,18 +354,23 @@
 
 - (void)doButtonVideoAds:(id)sender
 {
-    [Flurry logEvent:@"GAME: doButtonVideoAds"
+    [Flurry logEvent:@"StoreCoins: doButtonVideoAds"
       withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@"coins", [NSNumber numberWithInt:[[CoinsManager sharedInstance] getCoins]], nil]];
     
-    if ([VGVunglePub adIsAvailable])
+    if ([[VungleSDK sharedSDK] isCachedAdAvailable])
     {
-        [VGVunglePub setDelegate:self];
-        [VGVunglePub playModalAd:self
-                        animated:YES
-                       showClose:YES];
+        [[VungleSDK sharedSDK] setDelegate:self];
+        
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], VunglePlayAdOptionKeyIncentivized, nil];
+        NSError *error = nil;
+        [[VungleSDK sharedSDK] playAd:self
+                          withOptions:dictionary
+                                error:&error];
     }
     else
     {
+        [Flurry logEvent:@"StoreCoins: doButtonVideoAdsNoAds"];
+        
         self.labelNoVideoAds.hidden = NO;
         double delayInSeconds = 3.0;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -370,7 +382,7 @@
 
 - (void)doButtonClose:(id)sender
 {
-    [Flurry logEvent:@"GAME: doButtonRemoveClose"
+    [Flurry logEvent:@"StoreCoins: doButtonRemoveClose"
       withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@"coins", [NSNumber numberWithInt:[[CoinsManager sharedInstance] getCoins]], nil]];
     
     [[SoundUtils sharedInstance] playSoundEffect:SoundTypeBack];
@@ -385,41 +397,43 @@
 
 #pragma mark VGVungleDelegate
 
--(void)vungleMoviePlayed:(VGPlayData*)playData
+-(void)vungleSDKwillCloseAdWithViewInfo:(NSDictionary *)viewInfo willPresentProductSheet:(BOOL)willPresentProductSheet
 {
-    _videoPlayed = YES;
-}
-
--(void)vungleStatusUpdate:(VGStatusData*)statusData
-{
-    
-}
-
--(void)vungleViewDidDisappear:(UIViewController*)viewController
-{
-    if (_videoPlayed)
+    if ([viewInfo objectForKey:@"completedView"])
     {
-        BOOL canReceiveCoins = [[CoinsManager sharedInstance] substractVideoViews];
-        
-        if (canReceiveCoins)
+        NSNumber *completed = [viewInfo objectForKey:@"completedView"];
+        if (completed && completed.boolValue)
         {
-            [Flurry logEvent:@"StoreCoins: vungleReceiveCoins"
-              withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                              @"coins",
-                              [NSNumber numberWithInt:[[CoinsManager sharedInstance] getCoins]],
-                              nil]];
-            
-            [[CoinsManager sharedInstance] addCoins:COINS_REWARD_FOR_VIEWS];
-            [[SoundUtils sharedInstance] playSoundEffect:SoundTypeCoinsAdded];
+            _videoPlayed = YES;
         }
+        
+        if (_videoPlayed)
+        {
+            BOOL canReceiveCoins = [[CoinsManager sharedInstance] substractVideoViews];
+            
+            if (canReceiveCoins)
+            {
+                [Flurry logEvent:@"StoreCoins: vungleReceiveCoins"
+                  withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                  @"coins",
+                                  [NSNumber numberWithInt:[[CoinsManager sharedInstance] getCoins]],
+                                  nil]];
+                
+                [[CoinsManager sharedInstance] addCoins:COINS_REWARD_FOR_VIEWS];
+                self.labelNotEnough.text = [NSString stringWithFormat:NSLocalizedString(@"receivedCoinsMsg", nil), COINS_REWARD_FOR_VIEWS];
+                self.labelNotEnough.hidden = NO;
+                [[SoundUtils sharedInstance] playMusic:SoundTypeCoinsAdded];
+            }
+        }
+        [self refreshView];
     }
-    [self refreshView];
 }
 
--(void)vungleViewWillAppear:(UIViewController*)viewController
+- (void)vungleSDKwillShowAd
 {
     _videoPlayed = NO;
 }
+
 
 #pragma mark -
 
@@ -443,6 +457,10 @@
     {
         coins = STORE_BUNDLE_IN_APP_4_COINS;
     }
+    if (coins == 0)
+    {
+        return;
+    }
     
     [Flurry logEvent:@"StoreCoins: purchasedProduct"
       withParameters:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -456,7 +474,9 @@
     [[MGAdsManager sharedInstance] disableAds];
     
     [[CoinsManager sharedInstance] addCoins:coins];
-    [[SoundUtils sharedInstance] playSoundEffect:SoundTypeCoinsAdded];
+    self.labelNotEnough.text = [NSString stringWithFormat:NSLocalizedString(@"receivedCoinsMsg", nil), coins];
+    self.labelNotEnough.hidden = NO;
+    [[SoundUtils sharedInstance] playMusic:SoundTypeCoinsAdded];
     [self refreshView];
     
     NSLog(@"current coins %d", [[CoinsManager sharedInstance] getCoins]);
@@ -464,8 +484,8 @@
 
 - (void)notificationProductPurchaseFailed:(NSNotification *)notification
 {
-    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Purchase error"
-                                                     message:@"There was an error completing your purchase. Please try again later!"
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"purchaseError", nil)
+                                                     message:NSLocalizedString(@"purchaseErrorMsg", nil)
                                                     delegate:nil
                                            cancelButtonTitle:@"OK"
                                            otherButtonTitles:nil, nil] autorelease];
@@ -526,7 +546,9 @@
                       nil]];
     
     [[CoinsManager sharedInstance] addCoins:earnedNum];
-    [[SoundUtils sharedInstance] playSoundEffect:SoundTypeCoinsAdded];
+    self.labelNotEnough.text = [NSString stringWithFormat:NSLocalizedString(@"receivedCoinsMsg", nil), earnedNum];
+    self.labelNotEnough.hidden = NO;
+    [[SoundUtils sharedInstance] playMusic:SoundTypeCoinsAdded];
 }
 
 @end

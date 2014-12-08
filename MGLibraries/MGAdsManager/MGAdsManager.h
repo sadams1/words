@@ -11,7 +11,6 @@
 
 #define MGAdsManagerNotificationAdsFinishedLoading  @"kMGAdsManagerNotificationAdsFinishedLoading"
 #define MGAdsManagerNotificationLoadingScreenClose  @"kMGAdsManagerNotificationLoadingScreenClose"
-#define MGAdsManagerNotificationProPurchased        @"MGAdsManagerNotificationProPurchased"
 
 @protocol MGAdsManagerDelegate <NSObject>
 
@@ -30,6 +29,9 @@
 - (BOOL)isAvailable;
 - (void)showAdFromViewController:(UIViewController*)viewController;
 
+@optional
+- (void)setRootView:(UIView*)rootView;
+
 @end
 
 @interface MGAdsManager : NSObject
@@ -43,12 +45,15 @@
 @property (nonatomic, retain) id<MGAdsProvider> mgAdPlayHaven;
 @property (nonatomic, retain) id<MGAdsProvider> mgAdRevMob;
 @property (nonatomic, retain) id<MGAdsProvider> mgAdChartboost;
+@property (nonatomic, retain) id<MGAdsProvider> mgAdAppLovin;
+
+@property (nonatomic, retain) UIView *rootView;
 
 + (MGAdsManager*)sharedInstance;
 - (void)startAdsManager;
 - (void)fetchAds;
 - (BOOL)isAvailable;
-- (void)displayAdInViewController:(UIViewController*)viewController;
+- (BOOL)displayAdInViewController:(UIViewController*)viewController;
 - (id<MGAdsProvider>)getProviderForType:(MgAdsTypeProvider)providerType;
 
 - (BOOL)isAdsEnabled;

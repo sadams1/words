@@ -11,5 +11,7 @@
 @interface HomePackageCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UILabel *labelName;
+@property (nonatomic, retain) IBOutlet UILabel *labelDescription;
+@property (nonatomic, retain) IBOutlet UIImageView *imageViewIcon;
 
 @end

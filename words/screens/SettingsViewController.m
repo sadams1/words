@@ -8,10 +8,15 @@
 
 #import "SettingsViewController.h"
 #import "SoundUtils.h"
+#import "MKLocalNotificationsScheduler.h"
+#import "Flurry.h"
+#import "configuration.h"
+#import "ImageUtils.h"
+#import "MGIAPHelper.h"
 
 @interface SettingsViewController ()
 
-- (void)updateScreen;
+- (void)refreshView;
 
 @end
 
@@ -34,7 +39,11 @@
 
 - (void)dealloc
 {
-    
+    [self.labelTitle release];
+    [self.labelButtonNotifications release];
+    [self.labelButtonSounds release];
+    [self.labelButtonEmail release];
+    [self.buttonEmail release];
     [super dealloc];
 }
 
@@ -42,7 +51,72 @@
 {
     [super viewDidLoad];
     
-    [self updateScreen];
+    [self refreshView];
+    
+    
+    self.labelTitle.text = NSLocalizedString(@"settings", nil);
+    self.labelButtonNotifications.text = NSLocalizedString(@"notifications", nil);
+    self.labelButtonSounds.text = NSLocalizedString(@"sounds", nil);
+    self.labelButtonRestore.text = NSLocalizedString(@"restorePurchases", nil);
+    self.labelButtonEmail.text = NSLocalizedString(@"email", nil);
+    
+    
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        self.labelTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:50];
+        self.labelButtonNotifications.font = [UIFont fontWithName:@"Segoe UI" size:30];
+        self.labelButtonNotificationsOnOff.font = [UIFont fontWithName:@"Segoe UI" size:30];
+        self.labelButtonSounds.font = [UIFont fontWithName:@"Segoe UI" size:30];
+        self.labelButtonEmail.font = [UIFont fontWithName:@"Segoe UI" size:30];
+        self.labelButtonRestore.font = [UIFont fontWithName:@"Segoe UI" size:30];
+        self.labelButtonSoundsOnOff.font = [UIFont fontWithName:@"Segoe UI" size:30];
+    }
+    else
+    {
+        self.labelTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:25];
+        self.labelButtonNotifications.font = [UIFont fontWithName:@"Segoe UI" size:20];
+        self.labelButtonNotificationsOnOff.font = [UIFont fontWithName:@"Segoe UI" size:20];
+        self.labelButtonSounds.font = [UIFont fontWithName:@"Segoe UI" size:20];
+        self.labelButtonEmail.font = [UIFont fontWithName:@"Segoe UI" size:20];
+        self.labelButtonRestore.font = [UIFont fontWithName:@"Segoe UI" size:20];
+        self.labelButtonSoundsOnOff.font = [UIFont fontWithName:@"Segoe UI" size:20];
+    }
+    
+    self.view.backgroundColor = THEME_COLOR_GRAY;
+    self.labelTitle.textColor = THEME_COLOR_BLUE;
+    
+    UIImage *imageBackButton = [ImageUtils imageWithColor:THEME_COLOR_GRAY_BACKGROUND
+                                                 rectSize:self.buttonEmail.frame.size];
+    
+    
+    self.labelButtonNotifications.textColor = THEME_COLOR_GRAY_TEXT;
+    
+    self.labelButtonSounds.textColor = THEME_COLOR_GRAY_TEXT;
+    
+    self.labelButtonEmail.textColor = THEME_COLOR_GRAY_TEXT;
+    
+    self.labelButtonRestore.textColor = THEME_COLOR_GRAY_TEXT;
+    
+    [self.buttonNotifications setTitleColor:THEME_COLOR_GRAY_TEXT forState:UIControlStateNormal];
+    [self.buttonNotifications setTitleColor:THEME_COLOR_GRAY_TEXT forState:UIControlStateHighlighted];
+    [self.buttonNotifications setBackgroundImage:imageBackButton
+                                forState:UIControlStateHighlighted];
+    
+    [self.buttonSounds setTitleColor:THEME_COLOR_GRAY_TEXT forState:UIControlStateNormal];
+    [self.buttonSounds setTitleColor:THEME_COLOR_GRAY_TEXT forState:UIControlStateHighlighted];
+    [self.buttonSounds setBackgroundImage:imageBackButton
+                                forState:UIControlStateHighlighted];
+    
+    [self.buttonEmail setTitleColor:THEME_COLOR_GRAY_TEXT forState:UIControlStateNormal];
+    [self.buttonEmail setTitleColor:THEME_COLOR_GRAY_TEXT forState:UIControlStateHighlighted];
+    [self.buttonEmail setBackgroundImage:imageBackButton
+                                   forState:UIControlStateHighlighted];
+
+    [self.buttonRestore setTitleColor:THEME_COLOR_GRAY_TEXT forState:UIControlStateNormal];
+    [self.buttonRestore setTitleColor:THEME_COLOR_GRAY_TEXT forState:UIControlStateHighlighted];
+    [self.buttonRestore setBackgroundImage:imageBackButton
+                                forState:UIControlStateHighlighted];
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,14 +125,39 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)updateScreen
+- (void)refreshView
 {
+    if ([SoundUtils sharedInstance].soundOn)
+    {
+        self.labelButtonSoundsOnOff.text = NSLocalizedString(@"on", nil);
+        self.labelButtonSoundsOnOff.textColor = THEME_COLOR_BLUE;
+    }
+    else
+    {
+        self.labelButtonSoundsOnOff.text = NSLocalizedString(@"off", nil);
+        self.labelButtonSoundsOnOff.textColor = THEME_COLOR_GRAY_TEXT;
+    }
+    
+    if ([MKLocalNotificationsScheduler sharedInstance].notificationsOn)
+    {
+        self.labelButtonNotificationsOnOff.text = NSLocalizedString(@"on", nil);
+        self.labelButtonNotificationsOnOff.textColor = THEME_COLOR_BLUE;
+    }
+    else
+    {
+        self.labelButtonNotificationsOnOff.text = NSLocalizedString(@"off", nil);
+        self.labelButtonNotificationsOnOff.textColor = THEME_COLOR_GRAY_TEXT;
+    }
+    
     NSLog(@"%d - sound ", [SoundUtils sharedInstance].soundOn);
+    NSLog(@"%d - notifications", [MKLocalNotificationsScheduler sharedInstance].notificationsOn);
 }
 
 - (void)doButtonClose:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [Flurry logEvent:@"SETTINGS: doButtonBack"];
+    [[SoundUtils sharedInstance] playSoundEffect:SoundTypeBack];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 - (void)doButtonCredits:(id)sender
@@ -68,6 +167,8 @@
 
 - (void)doButtonEmail:(id)sender
 {
+    [Flurry logEvent:@"SETTINGS: doButtonEmail"];
+    
     // The MFMailComposeViewController class is only available in iPhone OS 3.0 or later.
 	// So, we must verify the existence of the above class and provide a workaround for devices running
 	// earlier versions of the iPhone OS.
@@ -96,15 +197,30 @@
 	}
 }
 
+- (void)doButtonRestore:(id)sender
+{
+    [[SoundUtils sharedInstance] playSoundEffect:SoundTypeClickOnButton];
+    [[MGIAPHelper sharedInstance] restoreCompletedTransactions];
+}
+
 - (void)doButtonNotifications:(id)sender
 {
+    [MKLocalNotificationsScheduler sharedInstance].notificationsOn = ![MKLocalNotificationsScheduler sharedInstance].notificationsOn;
     
+    [Flurry logEvent:@"SETTINGS: doButtonNotifications"
+      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@"SoundOn", [NSNumber numberWithBool:[MKLocalNotificationsScheduler sharedInstance].notificationsOn], nil]];
+    
+    [self refreshView];
 }
 
 - (void)doButtonSounds:(id)sender
 {
     [SoundUtils sharedInstance].soundOn = ![SoundUtils sharedInstance].soundOn;
-    [self updateScreen];
+    
+    [Flurry logEvent:@"SETTINGS: doButtonSounds"
+      withParameters:[NSDictionary dictionaryWithObjectsAndKeys:@"SoundOn", [NSNumber numberWithBool:[SoundUtils sharedInstance].soundOn], nil]];
+    
+    [self refreshView];
 }
 
 

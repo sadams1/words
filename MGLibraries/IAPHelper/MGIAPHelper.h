@@ -12,4 +12,6 @@
 
 + (MGIAPHelper *)sharedInstance;
 
++ (NSString *)priceForSKProduct:(SKProduct*)product;
+
 @end

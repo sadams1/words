@@ -164,7 +164,7 @@
     [view.buttonOK setImage:imageBackButton forState:UIControlStateNormal];
     
     view.labelQuest.textColor = THEME_COLOR_GRAY_TEXT;
-    view.labelQuest.text = [NSString stringWithFormat:@"You completed the Quest: %@", quest.desc];
+    view.labelQuest.text = [NSString stringWithFormat:NSLocalizedString(@"You completed the Quest: %@", nil), NSLocalizedString(quest.desc, nil)];
 }
 
 - (void)configureView:(LevelPopupView *)view withLevel:(Level *)level
@@ -193,7 +193,7 @@
     [view.buttonOK setImage:imageBackButton forState:UIControlStateNormal];
     
     view.labelQuest.textColor = THEME_COLOR_GRAY_TEXT;
-    view.labelQuest.text = [NSString stringWithFormat:@"You completed: %@", level.name];
+    view.labelQuest.text = [NSString stringWithFormat:NSLocalizedString(@"You completed: %@", nil), NSLocalizedString(level.name, nil)];
 }
 
 @end

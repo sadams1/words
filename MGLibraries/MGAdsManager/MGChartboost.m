@@ -18,15 +18,9 @@
     {
         _isAvailable = false;
         
-        Chartboost *cb = [Chartboost sharedChartboost];
-        
-        cb.appId = MG_ADS_CHARTBOOST_APP_ID;
-        cb.appSignature = MG_ADS_CHARTBOOST_APP_SIG;
-        
-        cb.delegate = self;
-        
-        [[Chartboost sharedChartboost] startSession];
-        [[Chartboost sharedChartboost] cacheInterstitial];
+        [Chartboost startWithAppId:MG_ADS_CHARTBOOST_APP_ID
+                      appSignature:MG_ADS_CHARTBOOST_APP_SIG
+                          delegate:self];
     }
     return self;
 }
@@ -38,7 +32,7 @@
 
 - (void)fetchAds
 {
-    
+    [Chartboost cacheInterstitial:CBLocationDefault];
 }
 
 - (BOOL)isAvailable
@@ -48,7 +42,7 @@
 
 - (void)showAdFromViewController:(UIViewController *)viewController
 {
-    [self.interstitial showInterstitial];
+    [Chartboost showInterstitial:CBLocationDefault];
 }
 
 
@@ -91,13 +85,27 @@
 // Same as above, but only called when dismissed for a close
 - (void)didCloseInterstitial:(NSString *)location
 {
+    _isAvailable = false;
     
+    //  refetch ads after 10 seconds
+    int64_t delayInSeconds = MG_REFETCH_AFTER;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self fetchAds];
+    });
 }
 
 // Same as above, but only called when dismissed for a click
 - (void)didClickInterstitial:(NSString *)location
 {
+    _isAvailable = false;
     
+    //  refetch ads after 10 seconds
+    int64_t delayInSeconds = MG_REFETCH_AFTER;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self fetchAds];
+    });
 }
 
 

@@ -28,6 +28,7 @@ typedef enum
 
 + (SoundUtils*)sharedInstance;
 
+- (void)removeAllPlayingSounds;
 - (void)playMusic:(SOUND_TYPE)soundType;
 - (void)playSoundEffect:(SOUND_TYPE)soundType;
 

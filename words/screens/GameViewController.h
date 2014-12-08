@@ -18,6 +18,7 @@
 - (void)onResume;
 - (void)onRestart;
 - (void)onBack;
+- (void)onNext;
 
 @end
 
@@ -28,8 +29,18 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonRemoveChars;
 @property (nonatomic, retain) IBOutlet UIButton *buttonResolveGame;
 @property (nonatomic, retain) IBOutlet UIButton *buttonPause;
+@property (nonatomic, retain) IBOutlet UILabel *labelStoreCoins;
 @property (nonatomic, retain) IBOutlet UILabel *labelTmpWord;
 @property (nonatomic, retain) IBOutlet UILabel *labelTime;
+@property (nonatomic, retain) IBOutlet UILabel *labelBestTime;
+@property (nonatomic, retain) IBOutlet UILabel *labelBestTimeText;
+@property (nonatomic, retain) IBOutlet UIView *viewWordTableContainer;
+@property (nonatomic, retain) IBOutlet UIView *viewWordTable;
+@property (nonatomic, retain) IBOutlet UIView *viewWords;
+@property (nonatomic, retain) IBOutlet UIView *viewFooter;
+
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *constraintWordTableHeight;
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *constraintWordTableWidth;
 
 - (id)initWithGame:(Game*)game parentViewController:(UIViewController*)viewController;
 

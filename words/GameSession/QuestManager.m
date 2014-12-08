@@ -103,8 +103,8 @@
     NSFetchRequest *requestQuests = [[[NSFetchRequest alloc] initWithEntityName:@"Quest"] autorelease];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"completed == NO"];
     [requestQuests setPredicate:predicate];
-    NSSortDescriptor *sortDescriptorID = [[NSSortDescriptor alloc] initWithKey:@"identifier"
-                                                                     ascending:YES];
+    NSSortDescriptor *sortDescriptorID = [[[NSSortDescriptor alloc] initWithKey:@"identifier"
+                                                                     ascending:YES] autorelease];
     requestQuests.sortDescriptors = [NSArray arrayWithObjects:sortDescriptorID, nil];
     NSError *error2 = nil;
     NSArray *quests = [[CoreDataUtils sharedInstance].managedObjectContext executeFetchRequest:requestQuests error:&error2];
@@ -136,7 +136,6 @@
             [[CoreDataUtils sharedInstance].managedObjectContext save:&error3];
             if (error3)
             {
-                NSLog(error3.debugDescription);
                 return NO;
             }
             return YES;
@@ -148,8 +147,8 @@
 - (BOOL)checkType2:(Quest*)quest
 {
     NSFetchRequest *requestSessions = [[[NSFetchRequest alloc] initWithEntityName:@"Session"] autorelease];
-    NSSortDescriptor *sortDescriptorID = [[NSSortDescriptor alloc] initWithKey:@"date"
-                                                                     ascending:NO];
+    NSSortDescriptor *sortDescriptorID = [[[NSSortDescriptor alloc] initWithKey:@"date"
+                                                                     ascending:NO] autorelease];
     requestSessions.sortDescriptors = [NSArray arrayWithObjects:sortDescriptorID, nil];
     [requestSessions setFetchLimit:quest.value.intValue];
     NSError *error2 = nil;
@@ -174,7 +173,6 @@
         [[CoreDataUtils sharedInstance].managedObjectContext save:&error3];
         if (error3)
         {
-            NSLog(error3.debugDescription);
             return NO;
         }
         return YES;
@@ -207,7 +205,6 @@
             [[CoreDataUtils sharedInstance].managedObjectContext save:&error3];
             if (error3)
             {
-                NSLog(error3.debugDescription);
                 return NO;
             }
             return YES;
@@ -233,8 +230,8 @@
 - (float)getType2Completion:(Quest *)quest
 {
     NSFetchRequest *requestSessions = [[[NSFetchRequest alloc] initWithEntityName:@"Session"] autorelease];
-    NSSortDescriptor *sortDescriptorID = [[NSSortDescriptor alloc] initWithKey:@"date"
-                                                                     ascending:NO];
+    NSSortDescriptor *sortDescriptorID = [[[NSSortDescriptor alloc] initWithKey:@"date"
+                                                                     ascending:NO] autorelease];
     requestSessions.sortDescriptors = [NSArray arrayWithObjects:sortDescriptorID, nil];
     [requestSessions setFetchLimit:quest.value.intValue];
     NSError *error2 = nil;

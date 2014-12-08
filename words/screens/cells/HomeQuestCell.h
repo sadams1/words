@@ -12,5 +12,6 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *labelName;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSkip;
+@property (nonatomic, retain) IBOutlet UILabel *labelCompleted;
 
 @end

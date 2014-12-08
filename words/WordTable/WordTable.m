@@ -15,6 +15,7 @@
 {
     NSMutableArray *_words;
     NSMutableArray *_wordStrings;
+    NSArray *_wordStringsInitial;
     
     NSMutableArray *_charTable;
     Word *_tmpWord;
@@ -42,11 +43,14 @@
 
 @implementation WordTable
 
-- (id)initWithWords:(NSArray *)words delegate:(id<WordTableDelegate>)delegate
+- (id)initWithView:(UIView *)view words:(NSArray *)words delegate:(id<WordTableDelegate>)delegate
 {
     self = [super init];
     if (self)
     {
+        self.view = view;
+        
+        _wordStringsInitial = [[NSArray alloc] initWithArray:words];
         _wordStrings = [[NSMutableArray alloc] initWithArray:words];
         _delegate = delegate;
         
@@ -73,6 +77,7 @@
 - (void)dealloc
 {
     [_words release];
+    [_wordStringsInitial release];
     [_wordStrings release];
     [_charTable release];
     [_view release];
@@ -83,14 +88,13 @@
     [super dealloc];
 }
 
-- (void)viewDidLoadWithFrame:(CGRect)frame
+- (void)viewDidLoad
 {
-    self.view = [[[UIView alloc] initWithFrame:frame] autorelease];
-    
     //  init words
     [self resetTable];
     
-    int cellSize = frame.size.width / TABLE_SIZE;
+    CGRect frame = self.view.frame;
+    float cellSize = frame.size.width / TABLE_SIZE;
     
     //  set chars on screen
     for (int i = 0; i < TABLE_SIZE; i++)
@@ -103,9 +107,29 @@
             chr.label.backgroundColor = [UIColor clearColor];
             chr.label.textAlignment = NSTextAlignmentCenter;
             chr.label.text = [chr.string uppercaseString];
-            chr.label.font = [UIFont fontWithName:@"Nexa Bold" size:30];
+            
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+                chr.label.font = [UIFont fontWithName:@"Nexa Bold" size:30];
+            else
+                chr.label.font = [UIFont fontWithName:@"Nexa Bold" size:15];
             
             [self.view addSubview:chr.label];
+        }
+    }
+}
+
+- (void)viewDidLayoutSubviews
+{
+    CGRect frame = self.view.frame;
+    float cellSize = frame.size.width / TABLE_SIZE;
+    //  set chars on screen
+    for (int i = 0; i < TABLE_SIZE; i++)
+    {
+        for (int j = 0; j < TABLE_SIZE; j++)
+        {
+            NSArray *column = [_charTable objectAtIndex:i];
+            Char *chr = [column objectAtIndex:j];
+            chr.label.frame = CGRectMake(cellSize * i, cellSize * j, cellSize, cellSize);
         }
     }
 }
@@ -185,12 +209,22 @@
 - (void)doWordStartCharHint
 {
     Word *word;
-    while (true)
+    
+    bool dobreak = false;
+    for (NSString *wordStr in _wordStringsInitial)
     {
-        word = [_words objectAtIndex:arc4random() % (_words.count)];
-        if (!word.isFound)
+        if (dobreak)
         {
             break;
+        }
+        for (Word *wordTmp in _words)
+        {
+            if ([[wordTmp getString] caseInsensitiveCompare:wordStr] == NSOrderedSame && !wordTmp.isFound)
+            {
+                word = wordTmp;
+                dobreak = true;
+                break;
+            }
         }
     }
     
@@ -293,7 +327,13 @@
     {
         self.positionEnd = [self getPositionFromPoint:point];
         
+        if (self.positionEnd.x < 0 || self.positionEnd.x >= _charTable.count || self.positionEnd.y < 0 || self.positionEnd.y >= _charTable.count)
+        {
+            return;
+        }
+        
         //  animate the char at the current point
+        NSLog(@"%d %d", self.positionEnd.x, self.positionEnd.y);
         Char *chr = [[_charTable objectAtIndex:self.positionEnd.x] objectAtIndex:self.positionEnd.y];
         UILabel *label = chr.label;
         float offset = label.frame.size.width / 12;
@@ -308,6 +348,7 @@
         [[label layer] addAnimation:animation forKey:@"position"];
         
         Direction currentDirection = [self getDirectionFromPosition:self.positionStart toPosition:self.positionEnd];
+        NSLog(@"direction %d", currentDirection);
         if (currentDirection != DIRECTION_NULL)
         {
             Word *newWord = [self getWordFromPosition:self.positionStart toPosition:self.positionEnd];
@@ -544,47 +585,57 @@
     int y2 = positionEnd.y;
     int count = MAX(abs(x1-x2), abs(y1-y2));
     
+    int margin;
+    if (count <= 3)
+    {
+        margin = 0;
+    }
+    else
+    {
+        margin = 1;
+    }
+    
     Direction direction = DIRECTION_NULL;
     
-    if (abs(x1-x2) != 0 && abs(y1-y2) != 0 && abs(x1-x2) != abs(y1-y2) )
-    {
-        return direction;
-    }
+//    if (abs(x1-x2) > margin && abs(y1-y2) > margin )    //&& abs(x1-x2) != abs(y1-y2) )
+//    {
+//        return direction;
+//    }
     
     if (x2 == x1 && y2 == y1)
     {
         return DIRECTION_E; //  todo: direction E for same char
     }
     
-    if (x2 == x1 + count && y2 == y1)
+    if (abs(x2 - (x1 + count)) <= margin && abs(y2 - y1) <= margin)
     {
         direction = DIRECTION_E;
     }
-    if (x2 == x1 + count && y2 == y1 + count)
+    if (abs(x2 - (x1 + count)) <= margin && abs(y2 - (y1 + count)) <= margin)
     {
         direction = DIRECTION_SE;
     }
-    if (x2 == x1 && y2 == y1 + count)
+    if (abs(x2 - x1) <= margin && abs(y2 - (y1 + count)) <= margin)
     {
         direction = DIRECTION_S;
     }
-    if (x2 == x1 - count && y2 == y1 + count)
+    if (abs(x2 - (x1 - count)) <= margin && abs(y2 - (y1 + count)) <= margin)
     {
         direction = DIRECTION_SV;
     }
-    if (x2 == x1 - count && y2 == y1)
+    if (abs(x2 - (x1 - count)) <= margin && abs(y2 - y1) <= margin)
     {
         direction = DIRECTION_V;
     }
-    if (x2 == x1 - count && y2 == y1 - count)
+    if (abs(x2 - (x1 - count)) <= margin && abs(y2 - (y1 - count)) <= margin)
     {
         direction = DIRECTION_NV;
     }
-    if (x2 == x1 && y2 == y1 - count)
+    if (abs(x2 - x1) <= margin && abs(y2 - (y1 - count)) <= margin)
     {
         direction = DIRECTION_N;
     }
-    if (x2 == x1 + count && y2 == y1 - count)
+    if (abs(x2 - (x1 + count)) <= margin && abs(y2 - (y1 - count)) <= margin)
     {
         direction = DIRECTION_NE;
     }
@@ -598,6 +649,22 @@
     int cellSize = self.view.frame.size.width / TABLE_SIZE;
     int x = point.x / cellSize;
     int y = point.y / cellSize;
+    if (x < 0)
+    {
+        x = 0;
+    }
+    if (x >= TABLE_SIZE)
+    {
+        x = TABLE_SIZE - 1;
+    }
+    if (y < 0)
+    {
+        y = 0;
+    }
+    if (y >= TABLE_SIZE)
+    {
+        y = TABLE_SIZE - 1;
+    }
     return [[[Position alloc] initWithX:x Y:y] autorelease];
 }
 

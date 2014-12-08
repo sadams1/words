@@ -36,6 +36,10 @@
     NSString *str = @"";
     for (Char *c in self.chars)
     {
+        if ([c.string caseInsensitiveCompare:@""] == NSOrderedSame)
+        {
+            return @"";
+        }
         str = [NSString stringWithFormat:@"%@%@", str, c.string];
     }
     return str;
@@ -60,11 +64,11 @@
     UIImage *image = nil;
     if (imgType == ImageBackgroundTypeTmp)
     {
-        image = [UIImage imageNamed:@"circle1.png"];
+        image = [UIImage imageNamed:@"select_word_over.png"];
     }
     if (imgType == ImageBackgroundTypeFull)
     {
-        image = [UIImage imageNamed:@"circle2.png"];
+        image = [UIImage imageNamed:@"select_word_pressed.png"];
     }
     
     Char *chrFirst = [self.chars objectAtIndex:0];

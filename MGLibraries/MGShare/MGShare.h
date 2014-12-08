@@ -26,7 +26,7 @@ typedef void (^ShareCompletionBlock)();
 - (void)shareString:(NSString*)message fromViewController:(UIViewController*)viewController;
 - (void)shareString:(NSString*)message fromView:(UIView*)view inViewController:(UIViewController*)viewController;
 
-- (void)facebookShareString:(NSString*)message fromViewController:(UIViewController*)viewController completion:(void (^)(void))completion;
-- (void)twitterShareString:(NSString*)message fromViewController:(UIViewController*)viewController completion:(void (^)(void))completion;
+- (void)facebookShareString:(NSString*)message fromViewController:(UIViewController*)viewController completion:(void (^)(bool completed))completion;
+- (void)twitterShareString:(NSString*)message fromViewController:(UIViewController*)viewController completion:(void (^)(bool completed))completion;
 
 @end

@@ -10,6 +10,7 @@
 #import "MGRevMob.h"
 #import "MGChartboost.h"
 #import "MGPlayHaven.h"
+#import "MGAppLovin.h"
 
 #import "Flurry.h"
 
@@ -47,11 +48,16 @@
         [self.mgAdRevMob release];
     if (self.mgAdChartboost)
         [self.mgAdChartboost release];
+    if (self.mgAdAppLovin)
+        [self.mgAdAppLovin release];
+    [self.rootView release];
     [super dealloc];
 }
 
 - (void)startAdsManager
 {
+    //  for more games feature
+    self.mgAdChartboost = [[[MGChartboost alloc] init] autorelease];
     if (![self isAdsEnabled])
     {
         //  disable ads purchased
@@ -59,7 +65,7 @@
     }
     self.mgAdRevMob = [[[MGRevMob alloc] init] autorelease];
     self.mgAdPlayHaven = [[[MGPlayHaven alloc] init] autorelease];
-    self.mgAdChartboost = [[[MGChartboost alloc] init] autorelease];
+    self.mgAdAppLovin = [[[MGAppLovin alloc] init] autorelease];
     
     [self fetchAds];
 }
@@ -69,23 +75,44 @@
     [[self getProviderForType:MG_ADS_PROVIDER_ORDER_1] fetchAds];
     [[self getProviderForType:MG_ADS_PROVIDER_ORDER_2] fetchAds];
     [[self getProviderForType:MG_ADS_PROVIDER_ORDER_3] fetchAds];
+    [[self getProviderForType:MG_ADS_PROVIDER_ORDER_4] fetchAds];
 }
 
 - (BOOL)isAvailable
 {
-    return ([self isAdsEnabled] &&
-            !_showAdsLocked && (
-            [[self getProviderForType:MG_ADS_PROVIDER_ORDER_1] isAvailable] ||
+    if (![self isAdsEnabled])
+    {
+        return NO;
+    }
+    if (_showAdsLocked)
+    {
+        return NO;
+    }
+    if (    [[self getProviderForType:MG_ADS_PROVIDER_ORDER_1] isAvailable] ||
             [[self getProviderForType:MG_ADS_PROVIDER_ORDER_2] isAvailable] ||
-            [[self getProviderForType:MG_ADS_PROVIDER_ORDER_3] isAvailable] ));
+            [[self getProviderForType:MG_ADS_PROVIDER_ORDER_3] isAvailable] ||
+            [[self getProviderForType:MG_ADS_PROVIDER_ORDER_4] isAvailable] )
+    {
+        return YES;
+    }
+    else
+    {
+        [Flurry logEvent:@"MGAdsManager: isAvailable - false"];
+        return NO;
+    }
 }
 
-- (void)displayAdInViewController:(UIViewController *)viewController
+- (BOOL)displayAdInViewController:(UIViewController *)viewController
 {
     if (![self isAvailable])
     {
-        [Flurry logEvent:@"MGAdsManager: isAvailable - false"];
-        return;
+        
+        return false;
+    }
+    
+    if ([self.mgAdChartboost respondsToSelector:@selector(setRootView:)])
+    {
+        [self.mgAdChartboost setRootView:self.rootView];
     }
     
     //  type 1
@@ -94,7 +121,7 @@
         [[self getProviderForType:MG_ADS_PROVIDER_ORDER_1] showAdFromViewController:viewController];
         [self unlockShowAdsAfterInterval];
         _numOfDisplays++;
-        return;
+        return true;
     }
     //  type 2
     if ([[self getProviderForType:MG_ADS_PROVIDER_ORDER_2] isAvailable])
@@ -102,7 +129,7 @@
         [[self getProviderForType:MG_ADS_PROVIDER_ORDER_2] showAdFromViewController:viewController];
         [self unlockShowAdsAfterInterval];
         _numOfDisplays++;
-        return;
+        return true;
     }
     //  type 3
     if ([[self getProviderForType:MG_ADS_PROVIDER_ORDER_3] isAvailable])
@@ -110,8 +137,17 @@
         [[self getProviderForType:MG_ADS_PROVIDER_ORDER_3] showAdFromViewController:viewController];
         [self unlockShowAdsAfterInterval];
         _numOfDisplays++;
-        return;
+        return true;
     }
+    //  type 4
+    if ([[self getProviderForType:MG_ADS_PROVIDER_ORDER_4] isAvailable])
+    {
+        [[self getProviderForType:MG_ADS_PROVIDER_ORDER_4] showAdFromViewController:viewController];
+        [self unlockShowAdsAfterInterval];
+        _numOfDisplays++;
+        return true;
+    }
+    return false;
 }
 
 - (id<MGAdsProvider>)getProviderForType:(MgAdsTypeProvider)providerType
@@ -124,6 +160,8 @@
             return self.mgAdRevMob;
         case MgAdsProviderChartboost:
             return self.mgAdChartboost;
+        case MgAdsProviderAppLovin:
+            return self.mgAdAppLovin;
         default:
             nil;
     }

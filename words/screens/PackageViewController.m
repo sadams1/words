@@ -12,11 +12,20 @@
 #import "Category.h"
 #import "Game.h"
 #import "PackageGameCell.h"
+#import "StoreCoinsViewController.h"
+#import "ImageUtils.h"
+#import "Flurry.h"
+#import "configuration.h"
+#import "SoundUtils.h"
+#import "GADBannerView.h"
+#import "MGAdsManager.h"
 
 @interface PackageViewController ()
 
 @property (nonatomic, retain) Category *category;
 @property (nonatomic, retain) NSArray *games;
+
+@property (nonatomic, retain) GADBannerView *bannerView;
 
 - (void)configureGameCell:(PackageGameCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
@@ -36,8 +45,8 @@
     {
         self.category = category;
         
-        NSSortDescriptor *sortDescriptorID = [[NSSortDescriptor alloc] initWithKey:@"identifier"
-                                                                         ascending:YES];
+        NSSortDescriptor *sortDescriptorID = [[[NSSortDescriptor alloc] initWithKey:@"identifier"
+                                                                         ascending:YES] autorelease];
         self.games = [[self.category.games allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptorID]];
         
         //  load cell
@@ -58,13 +67,70 @@
     [self.tableView release];
     [self.cellGame release];
     [self.cellLoaderGame release];
+    [self.labelTitle release];
+    [_viewBannerContainer release];
+    [_constraintBannerHeight release];
     [super dealloc];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        self.labelTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:30];
+    }
+    else
+    {
+        self.labelTitle.font = [UIFont fontWithName:@"Lucida Calligraphy" size:20];
+    }
+    
+    self.labelTitle.text = NSLocalizedString(self.category.name, nil);
+    [self configureBannerView];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    static BOOL loaded = NO;
+    if (!loaded)
+    {
+        [self configureBannerView];
+        loaded = YES;
+    }
+}
+
+- (void)configureBannerView
+{
+    self.constraintBannerHeight.constant = 0;
+    
+    if (![[MGAdsManager sharedInstance] isAdsEnabled])
+    {
+        return;
+    }
+    GADBannerView *bannerView;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeLeaderboard];
+    }
+    else
+    {
+        bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    }
+    bannerView.adUnitID = MY_BANNER_UNIT_ID;
+    self.constraintBannerHeight.constant = bannerView.adSize.size.height;
+    
+    // Let the runtime know which UIViewController to restore after taking
+    // the user wherever the ad goes and add it to the view hierarchy.
+    bannerView.rootViewController = self;
+    [self.viewBannerContainer addSubview:bannerView];
+    bannerView.center = CGPointMake(self.viewBannerContainer.frame.size.width / 2, self.viewBannerContainer.frame.size.height / 2);
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // Initiate a generic request to load it with an ad.
+        GADRequest *request = [GADRequest request];
+        [bannerView loadRequest:request];
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -81,24 +147,38 @@
 
 - (void)doButtonBack:(id)sender
 {
+    [[SoundUtils sharedInstance] playSoundEffect:SoundTypeBack];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)doButtonStore:(id)sender
+{
+    [Flurry logEvent:@"HOME: doButtonStore"];
+    [[SoundUtils sharedInstance] playSoundEffect:SoundTypeClickOnButton];
+    [self.navigationController pushViewController:[StoreCoinsViewController sharedInstanceWithDelegate:nil
+                                                                                    showNotEnoughCoins:NO] animated:NO];
 }
 
 #pragma mark tableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.category.games.count;
+    return self.games.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    int height = 77;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        height = 130;
+    }
+    return height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PackageGameCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TABLE_VIEW_TYPE_GAME"];
+    PackageGameCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PackageGameCell"];
     if (cell == nil) {
         [self.cellLoaderGame instantiateWithOwner:self options:nil];
         cell = self.cellGame;
@@ -115,7 +195,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Game *game = [[self.category.games allObjects] objectAtIndex:indexPath.row];
+    [[SoundUtils sharedInstance] playSoundEffect:SoundTypeClickOnButton];
+    Game *game = [self.games objectAtIndex:indexPath.row];
     GameViewController *gameViewCont = [[GameViewController alloc] initWithGame:game parentViewController:self];
     [self.navigationController pushViewController:gameViewCont animated:YES];
 }
@@ -123,12 +204,34 @@
 - (void)configureGameCell:(PackageGameCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     Game *game = [self.games objectAtIndex:indexPath.row];
-    cell.labelName.text = game.name;
+    cell.labelName.text = NSLocalizedString(game.name, nil);
     
     NSNumber *sum = [game.sessions valueForKeyPath:@"@sum.points"];
-    NSString *points = [NSString stringWithFormat:@"%d", sum.intValue];
+//    NSString *points = [NSString stringWithFormat:@"%d", sum.intValue];
     
-    cell.labelName.text = [NSString stringWithFormat:@"%@ --- %@", points, cell.labelName.text];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        cell.labelName.font = [UIFont fontWithName:@"Lucida Calligraphy" size:26];
+    }
+    else
+    {
+        cell.labelName.font = [UIFont fontWithName:@"Lucida Calligraphy" size:13];
+    }
+    
+    cell.labelName.text = cell.labelName.text;// [NSString stringWithFormat:@"%@ --- %@", points, cell.labelName.text];
+    
+    NSString *name = [NSString stringWithFormat:@"puzzle%d.png", game.identifier.intValue];
+    UIImage *image = [UIImage imageNamed:name];
+    if (image)
+    {
+        cell.imageViewIcon.image = [UIImage imageNamed:name];
+    }
+    else
+    {
+        cell.imageViewIcon.image = [UIImage imageNamed:@"puzzle.png"];
+    }
+    
+    [cell.viewStars addSubview:[ImageUtils getStarImageViewForPercentage:sum.floatValue / (float)GAME_TOTAL_POINTS]];
 }
 
 #pragma mark -
